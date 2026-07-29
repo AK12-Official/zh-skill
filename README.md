@@ -39,11 +39,11 @@ python3 scripts/install-skills.py --target both --only mattpocock-teach --force
 python3 scripts/install-skills.py --target both --mode copy --force
 ```
 
-不克隆本仓库时，可以用一条 `curl` 命令下载并执行安装器。它会直接下载 GitHub 归档并安装指定 Skill（下载的是归档，不是 Git clone）：
+不克隆本仓库时，可以用一条 `curl` 命令下载并执行纯 shell 安装器。它会直接下载 GitHub 归档并安装指定 Skill（下载的是归档，不是 Git clone）：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
-  | python3 - --repo https://github.com/AK12-Official/zh-skill \
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
+  | sh -s -- --repo https://github.com/AK12-Official/zh-skill \
   --target both --only mattpocock-teach --force
 ```
 

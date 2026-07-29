@@ -130,6 +130,15 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts
 
 远程模式下载 GitHub 归档，不执行 `git clone`；默认使用复制模式，不创建指向临时目录的链接。
 
+如果目标机器没有 Python，可以使用纯 shell 安装器：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
+  | sh -s -- \
+  --repo https://github.com/AK12-Official/zh-skill \
+  --target both --only owner-skill --force
+```
+
 多个 Skill 可以在同一次任务中分别添加多个 `[[sources]]` 条目，然后运行：
 
 ```bash
