@@ -17,7 +17,7 @@ Usage: install-skills.sh [options]
   --ref REF        branch, tag, or commit (default: main)
   --target NAME    codex, claude, or both (default: both)
   --only ID        install only one ID; repeatable
-  --dest-root DIR  override one installation root (use with one target)
+  --dest-root DIR  override one installation root (single target only)
   --force          replace existing installed directories
 EOF
 }
@@ -39,6 +39,12 @@ case "$target" in
   codex|claude|both) ;;
   *) echo "--target must be codex, claude, or both" >&2; exit 2 ;;
 esac
+if [ -n "$dest_root" ] && [ "$target" = "both" ]; then
+  echo "--dest-root cannot be used with --target both" >&2
+  exit 2
+fi
+
+project_root=$(pwd -P)
 
 repo_path=${repo#https://github.com/}
 repo_path=${repo_path#http://github.com/}
@@ -79,9 +85,22 @@ install_root() {
     return
   fi
   case "$1" in
-    codex) printf '%s\n' "${HOME}/.codex/skills" ;;
-    claude) printf '%s\n' "${HOME}/.claude/skills" ;;
+    codex) printf '%s\n' "$project_root/.codex/skills" ;;
+    claude) printf '%s\n' "$project_root/.claude/skills" ;;
   esac
+}
+
+ensure_gitignore_entry() {
+  directory=$1
+  gitignore="$project_root/.gitignore"
+  if [ -f "$gitignore" ] && grep -Eq "^/?[.]${directory}(/(\\*|\\*\\*)?)?/?$" "$gitignore"; then
+    return
+  fi
+  if [ -s "$gitignore" ] && [ -n "$(tail -c 1 "$gitignore")" ]; then
+    printf '\n' >> "$gitignore"
+  fi
+  printf '.%s/\n' "$directory" >> "$gitignore"
+  echo "updated $gitignore: .$directory/"
 }
 
 install_one() {
@@ -128,4 +147,15 @@ if [ "$found" = "0" ]; then
     echo "no SKILL.md files found" >&2
   fi
   exit 1
+fi
+
+if [ -z "$dest_root" ]; then
+  case "$target" in
+    codex) ensure_gitignore_entry codex ;;
+    claude) ensure_gitignore_entry claude ;;
+    both)
+      ensure_gitignore_entry codex
+      ensure_gitignore_entry claude
+      ;;
+  esac
 fi

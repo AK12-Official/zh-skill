@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Install collected skills into Codex and/or Claude's user skill directory.
+"""Install collected skills into a project's Codex and/or Claude directories.
 
 Local mode links to an existing zh-skill checkout by default, so updating that
-checkout updates every project on the machine. Remote mode downloads a GitHub
-tarball directly; it does not clone the collection repository.
+checkout updates the project. Remote mode downloads a GitHub tarball directly;
+it does not clone the collection repository.
 """
 
 from __future__ import annotations
@@ -87,15 +87,46 @@ def unpack_remote(repo: str, ref: str) -> tuple[tempfile.TemporaryDirectory, Pat
     return temp, children[0]
 
 
-def target_root(target: str, override: str | None) -> Path:
+def target_root(target: str, override: str | None, project_root: Path) -> Path:
     if override:
         return Path(override).expanduser().resolve()
-    home = Path.home()
     if target == "codex":
-        return home / ".codex" / "skills"
+        return project_root / ".codex" / "skills"
     if target == "claude":
-        return home / ".claude" / "skills"
+        return project_root / ".claude" / "skills"
     raise ValueError(f"未知目标: {target}")
+
+
+def gitignore_ignores(lines: list[str], directory: str) -> bool:
+    accepted = {
+        directory,
+        f"{directory}/",
+        f"/{directory}",
+        f"/{directory}/",
+        f"{directory}/*",
+        f"{directory}/**",
+        f"/{directory}/*",
+        f"/{directory}/**",
+    }
+    return any(line.strip() in accepted for line in lines)
+
+
+def ensure_project_gitignore(project_root: Path, targets: tuple[str, ...]) -> None:
+    gitignore = project_root / ".gitignore"
+    existing = gitignore.read_text(encoding="utf-8") if gitignore.exists() else ""
+    lines = existing.splitlines()
+    entries = [
+        f".{target}/"
+        for target in targets
+        if not gitignore_ignores(lines, f".{target}")
+    ]
+    if not entries:
+        return
+    prefix = existing
+    if prefix and not prefix.endswith("\n"):
+        prefix += "\n"
+    gitignore.write_text(prefix + "".join(f"{entry}\n" for entry in entries), encoding="utf-8")
+    print(f"已更新 {gitignore}: {', '.join(entries)}")
 
 
 def remove_existing(path: Path) -> None:
@@ -140,12 +171,15 @@ def main() -> int:
     parser.add_argument("--target", choices=("codex", "claude", "both"), default="both")
     parser.add_argument("--only", action="append", help="只安装指定 id，可重复使用")
     parser.add_argument("--mode", choices=("link", "copy"), default="link")
-    parser.add_argument("--dest-root", help="覆盖安装目录（仅适合一次安装一个 target）")
+    parser.add_argument("--dest-root", help="覆盖安装目录（仅支持单个 target）")
     parser.add_argument("--force", action="store_true", help="覆盖已存在的 Skill 目录")
     args = parser.parse_args()
+    if args.dest_root and args.target == "both":
+        parser.error("--dest-root 不能与 --target both 一起使用")
 
     temporary: tempfile.TemporaryDirectory | None = None
     try:
+        project_root = Path.cwd().resolve()
         if args.repo:
             temporary, library = unpack_remote(args.repo, args.ref)
             mode = "copy"  # 临时归档删除前不能创建链接
@@ -165,9 +199,11 @@ def main() -> int:
             if library.resolve() not in source.parents:
                 raise ValueError(f"来源 dest 越出了仓库根目录: {item['dest']}")
             for target in targets:
-                destination = target_root(target, args.dest_root) / item_id
+                destination = target_root(target, args.dest_root, project_root) / item_id
                 install_one(source, destination, mode, args.force)
                 print(f"[{target}] {item_id} -> {destination}")
+        if not args.dest_root:
+            ensure_project_gitignore(project_root, targets)
     finally:
         if temporary is not None:
             temporary.cleanup()

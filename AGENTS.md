@@ -113,7 +113,7 @@ git status --short
 python3 scripts/sync-skills.py --help
 ```
 
-安装到当前机器的 Codex/Claude 用户级目录：
+在目标项目根目录安装到 Codex/Claude 项目级目录：
 
 ```bash
 python3 scripts/install-skills.py --target both --only owner-skill --force
@@ -129,6 +129,7 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts
 ```
 
 远程模式下载 GitHub 归档，不执行 `git clone`；默认使用复制模式，不创建指向临时目录的链接。
+默认目标是当前项目的 `.codex/skills` 和 `.claude/skills`，并自动把 `.codex/`、`.claude/` 补充到项目根目录的 `.gitignore`。
 
 如果目标机器没有 Python，可以使用纯 shell 安装器：
 

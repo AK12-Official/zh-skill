@@ -29,30 +29,31 @@
 
 ## 快速开始
 
-无需克隆仓库。使用 `curl` 下载远程安装器，一键把全部 Skill 复制到 Codex 和 Claude 的用户级目录：
+在项目根目录执行下面的单行命令，无需克隆本仓库。安装器会把全部 Skill 分别复制到当前项目的 `.codex/skills` 和 `.claude/skills`：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
-  | python3 - \
-  --repo https://github.com/AK12-Official/zh-skill \
-  --target both --force
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py | python3 - --repo https://github.com/AK12-Official/zh-skill --target both --force
 ```
 
-## 安装到 Codex 或 Claude
+安装器会检查项目根目录的 `.gitignore`：文件不存在时自动创建，并按安装目标补充 `.codex/`、`.claude/`；已有正确规则时不会重复追加。
 
-本机已经克隆这个仓库时，可以把 Skill 链接到用户级目录（默认 `~/.codex/skills` 和 `~/.claude/skills`）：
+## 安装选项
+
+本机已经克隆这个仓库时，在目标项目根目录执行安装器。默认把 Skill 链接到该项目的 `.codex/skills` 和 `.claude/skills`：
 
 ```bash
-python3 scripts/install-skills.py --target both --only mattpocock-teach --force
+python3 /path/to/zh-skill/scripts/install-skills.py \
+  --target both --only mattpocock-teach --force
 ```
 
-默认使用符号链接，因此更新本仓库后，两个 Agent 都会看到新版本。若系统不适合使用符号链接，改用复制：
+本地模式默认使用符号链接，因此更新本仓库后，项目会看到新版本。若系统不适合使用符号链接，改用复制：
 
 ```bash
-python3 scripts/install-skills.py --target both --mode copy --force
+python3 /path/to/zh-skill/scripts/install-skills.py \
+  --target both --mode copy --force
 ```
 
-不克隆本仓库时，可以用一条 `curl` 命令下载并执行 Python 安装器。它会直接下载 GitHub 归档并安装指定 Skill（下载的是归档，不是 Git clone）：
+免克隆模式可以用 `--only` 只复制指定 Skill：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
@@ -61,7 +62,7 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts
   --target both --only mattpocock-teach --force
 ```
 
-没有 Python 时，使用纯 shell 安装器：
+没有 Python 时，使用行为一致的纯 shell 安装器：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
@@ -71,7 +72,7 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts
 
 免克隆模式默认复制文件，并以 `sources.toml` 中的 Skill ID 作为安装目录名，避免不同来源的同名 Skill 冲突。
 
-上面的命令默认安装到 `~/.codex/skills` 和 `~/.claude/skills`。如果你担心直接执行远程脚本，可以先把 URL 下载到本地，检查后再运行；生产环境还可以把 `main` 换成固定 commit。
+`--target` 可设为 `codex`、`claude` 或 `both`。使用单个 target 时，还可以通过 `--dest-root` 指定其他安装目录。如果你担心直接执行远程脚本，可以先把 URL 下载到本地，检查后再运行；生产环境还可以把 `main` 换成固定 commit。
 
 也可以只同步一个来源：
 
