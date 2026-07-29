@@ -21,6 +21,24 @@ dest = "skills/mattpocock/teach"
 license = "MIT"
 
 [[sources]]
+id = "sanyuan0704-code-review-expert"
+kind = "git"
+repo = "https://github.com/sanyuan0704/sanyuan-skills.git"
+ref = "main"
+path = "skills/code-review-expert"
+dest = "skills/sanyuan0704/code-review-expert"
+license = "MIT"
+
+[[sources]]
+id = "nextlevelbuilder-ui-ux-pro-max"
+kind = "git"
+repo = "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git"
+ref = "main"
+path = ".claude/skills/ui-ux-pro-max"
+dest = "skills/nextlevelbuilder/ui-ux-pro-max"
+license = "MIT"
+
+[[sources]]
 id = "mattpocock-handoff"
 kind = "git"
 repo = "https://github.com/mattpocock/skills.git"

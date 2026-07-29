@@ -16,6 +16,22 @@
       "dest": "skills/mattpocock/handoff",
       "license": "MIT"
     },
+    "sanyuan0704-code-review-expert": {
+      "kind": "git",
+      "repo": "https://github.com/sanyuan0704/sanyuan-skills.git",
+      "ref": "main",
+      "commit": "08b6572ef108f22d4e8a3ecf9182a4bbef097744",
+      "dest": "skills/sanyuan0704/code-review-expert",
+      "license": "MIT"
+    },
+    "nextlevelbuilder-ui-ux-pro-max": {
+      "kind": "git",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
+      "ref": "main",
+      "commit": "4857a2c5ef989794751a0f66b8545a4a49566286",
+      "dest": "skills/nextlevelbuilder/ui-ux-pro-max",
+      "license": "MIT"
+    },
     "chyiiiiiiiiiiii-openspec-proposal": {
       "kind": "git",
       "repo": "https://github.com/chyiiiiiiiiiiii/openspec-skills.git",
