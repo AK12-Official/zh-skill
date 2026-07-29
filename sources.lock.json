@@ -1,0 +1,20 @@
+{
+  "sources": {
+    "mattpocock-teach": {
+      "kind": "git",
+      "repo": "https://github.com/mattpocock/skills.git",
+      "ref": "main",
+      "commit": "2ab958093e83e0ec752e6c1c5932da465bf23e0c",
+      "dest": "skills/mattpocock/teach",
+      "license": "MIT"
+    },
+    "mattpocock-handoff": {
+      "kind": "git",
+      "repo": "https://github.com/mattpocock/skills.git",
+      "ref": "main",
+      "commit": "2ab958093e83e0ec752e6c1c5932da465bf23e0c",
+      "dest": "skills/mattpocock/handoff",
+      "license": "MIT"
+    }
+  }
+}

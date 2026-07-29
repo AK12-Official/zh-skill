@@ -1,0 +1,28 @@
+name: Update skills
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync upstream skills
+        run: python3 scripts/sync-skills.py
+
+      - name: Create update PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: sync upstream skills"
+          title: "chore: sync upstream skills"
+          body: |
+            自动同步 `sources.toml` 中声明的上游 Skill，请审核文件变更后合并。
+          branch: chore/sync-upstream-skills

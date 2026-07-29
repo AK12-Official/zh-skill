@@ -1,0 +1,30 @@
+# 外部 Skill 来源清单。
+# path 是来源仓库/压缩包内的相对路径，dest 是本仓库内的目标路径。
+
+# 示例（默认不启用，复制后取消注释即可）：
+# [[sources]]
+# id = "publisher-skill"
+# kind = "git"
+# repo = "https://github.com/publisher/repository.git"
+# ref = "main"
+# path = "skills/example"
+# dest = "skills/publisher/example"
+# license = "Apache-2.0"
+
+[[sources]]
+id = "mattpocock-teach"
+kind = "git"
+repo = "https://github.com/mattpocock/skills.git"
+ref = "main"
+path = "skills/productivity/teach"
+dest = "skills/mattpocock/teach"
+license = "MIT"
+
+[[sources]]
+id = "mattpocock-handoff"
+kind = "git"
+repo = "https://github.com/mattpocock/skills.git"
+ref = "main"
+path = "skills/productivity/handoff"
+dest = "skills/mattpocock/handoff"
+license = "MIT"
