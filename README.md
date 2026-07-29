@@ -15,14 +15,27 @@
 
 同步得到的目录是生成内容，请不要直接在 `skills/` 下修改上游文件。需要本地调整时，把补丁放在 `patches/`，或者新增一个自己的来源条目。
 
+## 已收录 Skill
+
+| ID | 本地目录 | 许可证 |
+| --- | --- | --- |
+| `mattpocock-teach` | `skills/mattpocock/teach` | MIT |
+| `mattpocock-handoff` | `skills/mattpocock/handoff` | MIT |
+| `sanyuan0704-code-review-expert` | `skills/sanyuan0704/code-review-expert` | MIT |
+| `nextlevelbuilder-ui-ux-pro-max` | `skills/nextlevelbuilder/ui-ux-pro-max` | MIT |
+| `chyiiiiiiiiiiii-openspec-proposal` | `skills/chyiiiiiiiiiiii/openspec-proposal` | MIT |
+| `chyiiiiiiiiiiii-openspec-apply` | `skills/chyiiiiiiiiiiii/openspec-apply` | MIT |
+| `chyiiiiiiiiiiii-openspec-archive` | `skills/chyiiiiiiiiiiii/openspec-archive` | MIT |
+
 ## 快速开始
 
-需要 Python 3.11+ 和 Git：
+无需克隆仓库。使用 `curl` 下载远程安装器，一键把全部 Skill 复制到 Codex 和 Claude 的用户级目录：
 
 ```bash
-python3 scripts/sync-skills.py --dry-run
-python3 scripts/sync-skills.py
-git diff
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
+  | python3 - \
+  --repo https://github.com/AK12-Official/zh-skill \
+  --target both --force
 ```
 
 ## 安装到 Codex 或 Claude
@@ -39,7 +52,16 @@ python3 scripts/install-skills.py --target both --only mattpocock-teach --force
 python3 scripts/install-skills.py --target both --mode copy --force
 ```
 
-不克隆本仓库时，可以用一条 `curl` 命令下载并执行纯 shell 安装器。它会直接下载 GitHub 归档并安装指定 Skill（下载的是归档，不是 Git clone）：
+不克隆本仓库时，可以用一条 `curl` 命令下载并执行 Python 安装器。它会直接下载 GitHub 归档并安装指定 Skill（下载的是归档，不是 Git clone）：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
+  | python3 - \
+  --repo https://github.com/AK12-Official/zh-skill \
+  --target both --only mattpocock-teach --force
+```
+
+没有 Python 时，使用纯 shell 安装器：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
@@ -54,7 +76,7 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts
 也可以只同步一个来源：
 
 ```bash
-python3 scripts/sync-skills.py --only anthropic-pdf
+python3 scripts/sync-skills.py --only mattpocock-teach
 ```
 
 脚本默认只更新 `skills/` 下由来源清单管理的目录，并会拒绝越出仓库根目录的路径。
