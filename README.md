@@ -39,17 +39,17 @@ python3 scripts/install-skills.py --target both --only mattpocock-teach --force
 python3 scripts/install-skills.py --target both --mode copy --force
 ```
 
-不克隆本仓库时，安装器可以直接下载 GitHub 归档并安装指定 Skill（下载的是归档，不是 Git clone）：
+不克隆本仓库时，可以用一条 `curl` 命令下载并执行安装器。它会直接下载 GitHub 归档并安装指定 Skill（下载的是归档，不是 Git clone）：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/<你的用户名>/zh-skill/main/scripts/install-skills.py \
-  -o /tmp/install-zh-skills.py
-python3 /tmp/install-zh-skills.py \
-  --repo https://github.com/<你的用户名>/zh-skill \
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
+  | python3 - --repo https://github.com/AK12-Official/zh-skill \
   --target both --only mattpocock-teach --force
 ```
 
 免克隆模式默认复制文件，并以 `sources.toml` 中的 Skill ID 作为安装目录名，避免不同来源的同名 Skill 冲突。
+
+上面的命令默认安装到 `~/.codex/skills` 和 `~/.claude/skills`。如果你担心直接执行远程脚本，可以先把 URL 下载到本地，检查后再运行；生产环境还可以把 `main` 换成固定 commit。
 
 也可以只同步一个来源：
 

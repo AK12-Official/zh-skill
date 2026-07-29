@@ -122,8 +122,9 @@ python3 scripts/install-skills.py --target both --only owner-skill --force
 如果用户没有克隆本仓库，使用远程安装模式：
 
 ```bash
-python3 scripts/install-skills.py \
-  --repo https://github.com/<owner>/zh-skill \
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
+  | python3 - \
+  --repo https://github.com/AK12-Official/zh-skill \
   --target both --only owner-skill --force
 ```
 
