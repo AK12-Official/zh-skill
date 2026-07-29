@@ -15,6 +15,30 @@
       "commit": "2ab958093e83e0ec752e6c1c5932da465bf23e0c",
       "dest": "skills/mattpocock/handoff",
       "license": "MIT"
+    },
+    "chyiiiiiiiiiiii-openspec-proposal": {
+      "kind": "git",
+      "repo": "https://github.com/chyiiiiiiiiiiii/openspec-skills.git",
+      "ref": "main",
+      "commit": "092825896ed788b40c7ea987c17f1c5f75ed843a",
+      "dest": "skills/chyiiiiiiiiiiii/openspec-proposal",
+      "license": "MIT"
+    },
+    "chyiiiiiiiiiiii-openspec-apply": {
+      "kind": "git",
+      "repo": "https://github.com/chyiiiiiiiiiiii/openspec-skills.git",
+      "ref": "main",
+      "commit": "092825896ed788b40c7ea987c17f1c5f75ed843a",
+      "dest": "skills/chyiiiiiiiiiiii/openspec-apply",
+      "license": "MIT"
+    },
+    "chyiiiiiiiiiiii-openspec-archive": {
+      "kind": "git",
+      "repo": "https://github.com/chyiiiiiiiiiiii/openspec-skills.git",
+      "ref": "main",
+      "commit": "092825896ed788b40c7ea987c17f1c5f75ed843a",
+      "dest": "skills/chyiiiiiiiiiiii/openspec-archive",
+      "license": "MIT"
     }
   }
 }

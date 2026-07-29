@@ -28,3 +28,30 @@ ref = "main"
 path = "skills/productivity/handoff"
 dest = "skills/mattpocock/handoff"
 license = "MIT"
+
+[[sources]]
+id = "chyiiiiiiiiiiii-openspec-proposal"
+kind = "git"
+repo = "https://github.com/chyiiiiiiiiiiii/openspec-skills.git"
+ref = "main"
+path = "openspec-proposal"
+dest = "skills/chyiiiiiiiiiiii/openspec-proposal"
+license = "MIT"
+
+[[sources]]
+id = "chyiiiiiiiiiiii-openspec-apply"
+kind = "git"
+repo = "https://github.com/chyiiiiiiiiiiii/openspec-skills.git"
+ref = "main"
+path = "openspec-apply"
+dest = "skills/chyiiiiiiiiiiii/openspec-apply"
+license = "MIT"
+
+[[sources]]
+id = "chyiiiiiiiiiiii-openspec-archive"
+kind = "git"
+repo = "https://github.com/chyiiiiiiiiiiii/openspec-skills.git"
+ref = "main"
+path = "openspec-archive"
+dest = "skills/chyiiiiiiiiiiii/openspec-archive"
+license = "MIT"
