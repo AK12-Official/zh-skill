@@ -28,8 +28,9 @@
 | `chyiiiiiiiiiiii-openspec-archive` | `skills/chyiiiiiiiiiiii/openspec-archive` | MIT |
 | `slidevjs-slidev` | `skills/slidevjs/slidev` | MIT |
 
-因许可证或分发条件无法镜像的推荐项目，见
-[`external-skills.md`](external-skills.md)。这些条目不参与同步和安装。
+因许可证或分发条件无法镜像的推荐项目及其官方安装方式，统一维护在
+[`external-skills.md`](external-skills.md)。这些条目不参与本仓库的快速安装、
+同步或自动更新。
 
 ## 快速开始
 
