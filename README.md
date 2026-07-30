@@ -26,6 +26,10 @@
 | `chyiiiiiiiiiiii-openspec-proposal` | `skills/chyiiiiiiiiiiii/openspec-proposal` | MIT |
 | `chyiiiiiiiiiiii-openspec-apply` | `skills/chyiiiiiiiiiiii/openspec-apply` | MIT |
 | `chyiiiiiiiiiiii-openspec-archive` | `skills/chyiiiiiiiiiiii/openspec-archive` | MIT |
+| `slidevjs-slidev` | `skills/slidevjs/slidev` | MIT |
+
+因许可证或分发条件无法镜像的推荐项目，见
+[`external-skills.md`](external-skills.md)。这些条目不参与同步和安装。
 
 ## 快速开始
 

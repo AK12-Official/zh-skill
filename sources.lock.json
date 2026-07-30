@@ -55,6 +55,14 @@
       "commit": "092825896ed788b40c7ea987c17f1c5f75ed843a",
       "dest": "skills/chyiiiiiiiiiiii/openspec-archive",
       "license": "MIT"
+    },
+    "slidevjs-slidev": {
+      "kind": "git",
+      "repo": "https://github.com/slidevjs/slidev.git",
+      "ref": "main",
+      "commit": "36063a1e3ea3afe3df333c3707ef204fc2346c7f",
+      "dest": "skills/slidevjs/slidev",
+      "license": "MIT"
     }
   }
 }

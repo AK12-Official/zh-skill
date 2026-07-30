@@ -73,3 +73,12 @@ ref = "main"
 path = "openspec-archive"
 dest = "skills/chyiiiiiiiiiiii/openspec-archive"
 license = "MIT"
+
+[[sources]]
+id = "slidevjs-slidev"
+kind = "git"
+repo = "https://github.com/slidevjs/slidev.git"
+ref = "main"
+path = "skills/slidev"
+dest = "skills/slidevjs/slidev"
+license = "MIT"
