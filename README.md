@@ -34,44 +34,22 @@
 
 ## 快速开始
 
-在项目根目录执行下面的单行命令，无需克隆本仓库。安装器会把全部 Skill 分别复制到当前项目的 `.codex/skills` 和 `.claude/skills`：
+在项目根目录执行下面的单行命令，无需克隆本仓库，也无需 Python。安装器会把全部已收录 Skill 分别复制到当前项目的 `.codex/skills` 和 `.claude/skills`：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py | python3 - --repo https://github.com/AK12-Official/zh-skill --target both --force
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh | sh
 ```
 
 安装器会检查项目根目录的 `.gitignore`：文件不存在时自动创建，并按安装目标补充 `.codex/`、`.claude/`；已有正确规则时不会重复追加。
 
 ## 安装选项
 
-本机已经克隆这个仓库时，在目标项目根目录执行安装器。默认把 Skill 链接到该项目的 `.codex/skills` 和 `.claude/skills`：
-
-```bash
-python3 /path/to/zh-skill/scripts/install-skills.py \
-  --target both --only mattpocock-teach --force
-```
-
-本地模式默认使用符号链接，因此更新本仓库后，项目会看到新版本。若系统不适合使用符号链接，改用复制：
-
-```bash
-python3 /path/to/zh-skill/scripts/install-skills.py \
-  --target both --mode copy --force
-```
-
 免克隆模式可以用 `--only` 只复制指定 Skill：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
-  | python3 - \
-  --repo https://github.com/AK12-Official/zh-skill \
-  --target both --only mattpocock-teach --force
-```
-
-没有 Python 时，使用行为一致的纯 shell 安装器：
-
-```bash
 curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
-  | sh -s -- --repo https://github.com/AK12-Official/zh-skill \
+  | sh -s -- \
+  --repo https://github.com/AK12-Official/zh-skill \
   --target both --only mattpocock-teach --force
 ```
 

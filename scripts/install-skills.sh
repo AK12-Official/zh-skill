@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
-# Install skills from a public zh-skill GitHub repository without cloning it.
+# Install registered skills from a public zh-skill GitHub repository without
+# cloning it.  This script intentionally uses only POSIX sh, curl, tar, awk,
+# and cp so it can be run directly from curl on machines without Python.
 set -eu
 
 repo="https://github.com/AK12-Official/zh-skill"
@@ -16,7 +18,7 @@ Usage: install-skills.sh [options]
   --repo URL       zh-skill GitHub repository (default: AK12-Official/zh-skill)
   --ref REF        branch, tag, or commit (default: main)
   --target NAME    codex, claude, or both (default: both)
-  --only ID        install only one ID; repeatable
+  --only ID        install only one registered Skill ID; repeatable
   --dest-root DIR  override one installation root (single target only)
   --force          replace existing installed directories
 EOF
@@ -65,8 +67,8 @@ archive_url="https://codeload.github.com/$owner/$name/tar.gz/$ref"
 curl -fsSL "$archive_url" -o "$archive"
 tar -xzf "$archive" -C "$work"
 library=$(find "$work" -mindepth 1 -maxdepth 1 -type d -print | head -n 1)
-if [ -z "$library" ] || [ ! -d "$library/skills" ]; then
-  echo "downloaded repository does not contain a skills directory" >&2
+if [ -z "$library" ] || [ ! -f "$library/sources.toml" ]; then
+  echo "downloaded repository does not contain sources.toml" >&2
   exit 1
 fi
 
@@ -109,6 +111,10 @@ install_one() {
   source_dir=$3
   root=$(install_root "$platform")
   destination="$root/$id"
+  if [ ! -f "$source_dir/SKILL.md" ]; then
+    echo "registered Skill is missing SKILL.md: $source_dir" >&2
+    exit 1
+  fi
   mkdir -p "$root"
   if [ -e "$destination" ] || [ -L "$destination" ]; then
     if [ "$force" != "1" ]; then
@@ -122,14 +128,44 @@ install_one() {
 }
 
 found="0"
+# Sources are deliberately read from the manifest rather than discovered with
+# find: this keeps the installation ID and set of installable skills identical
+# to the Python installer.  The collection's manifest values are quoted,
+# single-line TOML strings.
 skill_list="$work/skills.list"
-find "$library/skills" -type f -name SKILL.md -print > "$skill_list"
-while IFS= read -r skill_file; do
-  skill_dir=$(dirname "$skill_file")
-  relative=${skill_dir#"$library/skills/"}
-  id=$(printf '%s' "$relative" | tr '/' '-')
+awk '
+  /^\[\[sources\]\]/ { emit=1; id=""; dest=""; next }
+  emit && $0 ~ /^[[:space:]]*id[[:space:]]*=/ {
+    value=$0
+    sub(/^[^=]*=[[:space:]]*"/, "", value)
+    sub(/"[[:space:]]*$/, "", value)
+    id=value
+  }
+  emit && $0 ~ /^[[:space:]]*dest[[:space:]]*=/ {
+    value=$0
+    sub(/^[^=]*=[[:space:]]*"/, "", value)
+    sub(/"[[:space:]]*$/, "", value)
+    dest=value
+  }
+  emit && id != "" && dest != "" { print id "\t" dest; emit=0 }
+' "$library/sources.toml" > "$skill_list"
+
+while IFS="$(printf '\t')" read -r id relative; do
+  case "$id" in
+    ""|*/*|*'..'*|*[!a-z0-9-]*)
+      echo "invalid Skill ID in sources.toml: $id" >&2
+      exit 1
+      ;;
+  esac
+  case "$relative" in
+    ""|/*|../*|*/../*|*'/..')
+      echo "unsafe Skill destination in sources.toml: $relative" >&2
+      exit 1
+      ;;
+  esac
   selected "$id" || continue
   found="1"
+  skill_dir="$library/$relative"
   case "$target" in
     codex) install_one codex "$id" "$skill_dir" ;;
     claude) install_one claude "$id" "$skill_dir" ;;

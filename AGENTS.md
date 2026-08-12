@@ -132,28 +132,20 @@ python3 scripts/sync-skills.py --help
 在目标项目根目录安装到 Codex/Claude 项目级目录：
 
 ```bash
-python3 scripts/install-skills.py --target both --only owner-skill --force
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh | sh
 ```
 
-如果用户没有克隆本仓库，使用远程安装模式：
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.py \
-  | python3 - \
-  --repo https://github.com/AK12-Official/zh-skill \
-  --target both --only owner-skill --force
-```
-
-远程模式下载 GitHub 归档，不执行 `git clone`；默认使用复制模式，不创建指向临时目录的链接。
-默认目标是当前项目的 `.codex/skills` 和 `.claude/skills`，并自动把 `.codex/`、`.claude/` 补充到项目根目录的 `.gitignore`。
-
-如果目标机器没有 Python，可以使用纯 shell 安装器：
+按 ID 安装指定 Skill：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
   | sh -s -- \
   --repo https://github.com/AK12-Official/zh-skill \
   --target both --only owner-skill --force
+```
+
+安装器下载 GitHub 归档，不执行 `git clone`；默认使用复制模式，不创建指向临时目录的链接。
+默认目标是当前项目的 `.codex/skills` 和 `.claude/skills`，并自动把 `.codex/`、`.claude/` 补充到项目根目录的 `.gitignore`。
 ```
 
 多个 Skill 可以在同一次任务中分别添加多个 `[[sources]]` 条目，然后运行：
