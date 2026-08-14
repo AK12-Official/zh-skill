@@ -10,6 +10,7 @@ target="both"
 force="0"
 only=""
 dest_root=""
+skip_openspec_cli="0"
 
 usage() {
   cat <<'EOF'
@@ -21,6 +22,9 @@ Usage: install-skills.sh [options]
   --only ID        install only one registered Skill ID; repeatable
   --dest-root DIR  override one installation root (single target only)
   --force          replace existing installed directories
+  --skip-openspec-cli
+                   do not install the openspec CLI (by default it is installed
+                   automatically when any openspec skill is selected)
 EOF
 }
 
@@ -32,6 +36,7 @@ while [ "$#" -gt 0 ]; do
     --only) only="$only $2"; shift 2 ;;
     --dest-root) dest_root=$2; shift 2 ;;
     --force) force="1"; shift ;;
+    --skip-openspec-cli) skip_openspec_cli="1"; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "unknown option: $1" >&2; usage >&2; exit 2 ;;
   esac
@@ -127,7 +132,47 @@ install_one() {
   echo "[$platform] $id -> $destination"
 }
 
+install_openspec_cli() {
+  if command -v openspec >/dev/null 2>&1; then
+    echo "openspec CLI already installed: $(command -v openspec)"
+    return 0
+  fi
+
+  pm=""
+  if command -v npm >/dev/null 2>&1; then
+    pm="npm"
+  elif command -v pnpm >/dev/null 2>&1; then
+    pm="pnpm"
+  elif command -v bun >/dev/null 2>&1; then
+    pm="bun"
+  elif command -v yarn >/dev/null 2>&1; then
+    pm="yarn"
+  fi
+
+  if [ -z "$pm" ]; then
+    echo "openspec CLI requires npm, pnpm, bun, or yarn; none found" >&2
+    echo "install it manually: npm install -g @fission-ai/openspec@latest" >&2
+    return 1
+  fi
+
+  echo "installing openspec CLI with $pm ..."
+  case "$pm" in
+    npm)  npm install -g @fission-ai/openspec@latest ;;
+    pnpm) pnpm add -g @fission-ai/openspec@latest ;;
+    bun)  bun add -g @fission-ai/openspec@latest ;;
+    yarn) yarn global add @fission-ai/openspec@latest ;;
+  esac
+
+  if command -v openspec >/dev/null 2>&1; then
+    echo "openspec CLI installed: $(openspec --version 2>/dev/null || true)"
+  else
+    echo "openspec CLI install finished, but 'openspec' is not on PATH" >&2
+    echo "add your package manager's global bin directory to PATH and re-check" >&2
+  fi
+}
+
 found="0"
+openspec_selected="0"
 # Sources are deliberately read from the manifest rather than discovered with
 # find: this keeps the installation ID and set of installable skills identical
 # to the Python installer.  The collection's manifest values are quoted,
@@ -164,6 +209,9 @@ while IFS="$(printf '\t')" read -r id relative; do
       ;;
   esac
   selected "$id" || continue
+  case "$id" in
+    *openspec*) openspec_selected="1" ;;
+  esac
   found="1"
   skill_dir="$library/$relative"
   case "$target" in
@@ -194,4 +242,15 @@ if [ -z "$dest_root" ]; then
       ensure_gitignore_entry claude
       ;;
   esac
+fi
+
+if [ "$openspec_selected" = "1" ]; then
+  if [ "$skip_openspec_cli" = "1" ]; then
+    if ! command -v openspec >/dev/null 2>&1; then
+      echo "note: the installed openspec skills require the openspec CLI, which is not on PATH" >&2
+      echo "run: npm install -g @fission-ai/openspec@latest" >&2
+    fi
+  else
+    install_openspec_cli
+  fi
 fi

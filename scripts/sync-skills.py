@@ -134,6 +134,12 @@ def main() -> int:
 
     lock = json.loads(LOCKFILE.read_text(encoding="utf-8")) if LOCKFILE.exists() else {"sources": {}}
     lock.setdefault("sources", {})
+    # Remove records for sources that no longer exist in the manifest. This
+    # keeps the generated lock file aligned when a source id is renamed.
+    manifest_ids = {item["id"] for item in load_manifest()}
+    for source_id in list(lock["sources"]):
+        if source_id not in manifest_ids:
+            del lock["sources"][source_id]
     for item in items:
         for required in ("id", "kind", "path", "dest"):
             if not item.get(required):

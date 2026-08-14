@@ -1,19 +1,17 @@
 # zh-skill
 
-收集、同步和审核来自不同来源的 Agent Skills。
+收集并分发来自不同来源的 Agent Skills。
 
-仓库默认由 Agent 代为维护。Agent 的完整操作流程见 [`AGENTS.md`](AGENTS.md)。
+本仓库由 Agent 维护；来源收录、同步、审核和文档更新的规则见
+[`AGENTS.md`](AGENTS.md)。本页面向使用者，说明已收录内容和安装方式。
 
-## 工作方式
+## 收录与更新
 
-每个外部 Skill 都在 [`sources.toml`](sources.toml) 中声明来源和目标目录。运行同步脚本时：
+每个已镜像的 Skill 都在 [`sources.toml`](sources.toml) 中声明上游来源和本地目录。
+同步后实际使用的 commit 或 hash 记录在 [`sources.lock.json`](sources.lock.json)，便于
+审核和复现。
 
-1. 拉取上游 Git 仓库，或下载 ZIP 文件；
-2. 只导入声明的目录；
-3. 将实际 commit/hash 写入 [`sources.lock.json`](sources.lock.json)；
-4. 把同步结果作为普通 Git diff 审核后提交。
-
-同步得到的目录是生成内容，请不要直接在 `skills/` 下修改上游文件。需要本地调整时，把补丁放在 `patches/`，或者新增一个自己的来源条目。
+如果希望收录新的 Skill，请提供其官方来源链接；维护 Agent 会完成来源核验、同步和安全审核。
 
 ## 已收录 Skill
 
@@ -21,12 +19,44 @@
 | --- | --- | --- |
 | `mattpocock-teach` | `skills/mattpocock/teach` | MIT |
 | `mattpocock-handoff` | `skills/mattpocock/handoff` | MIT |
-| `sanyuan0704-code-review-expert` | `skills/sanyuan0704/code-review-expert` | MIT |
+| `mattpocock-grill-me` | `skills/mattpocock/grill-me` | MIT |
+| `mattpocock-grilling` | `skills/mattpocock/grilling` | MIT |
 | `nextlevelbuilder-ui-ux-pro-max` | `skills/nextlevelbuilder/ui-ux-pro-max` | MIT |
-| `chyiiiiiiiiiiii-openspec-proposal` | `skills/chyiiiiiiiiiiii/openspec-proposal` | MIT |
-| `chyiiiiiiiiiiii-openspec-apply` | `skills/chyiiiiiiiiiiii/openspec-apply` | MIT |
-| `chyiiiiiiiiiiii-openspec-archive` | `skills/chyiiiiiiiiiiii/openspec-archive` | MIT |
+| `fission-ai-openspec-propose` | `skills/fission-ai/openspec-propose` | MIT |
+| `fission-ai-openspec-apply-change` | `skills/fission-ai/openspec-apply-change` | MIT |
+| `fission-ai-openspec-archive-change` | `skills/fission-ai/openspec-archive-change` | MIT |
+| `fission-ai-openspec-explore` | `skills/fission-ai/openspec-explore` | MIT |
 | `slidevjs-slidev` | `skills/slidevjs/slidev` | MIT |
+| `samber-golang-benchmark` | `skills/samber/golang-benchmark` | MIT |
+| `samber-golang-cli` | `skills/samber/golang-cli` | MIT |
+| `samber-golang-code-style` | `skills/samber/golang-code-style` | MIT |
+| `samber-golang-concurrency` | `skills/samber/golang-concurrency` | MIT |
+| `samber-golang-context` | `skills/samber/golang-context` | MIT |
+| `samber-golang-continuous-integration` | `skills/samber/golang-continuous-integration` | MIT |
+| `samber-golang-data-structures` | `skills/samber/golang-data-structures` | MIT |
+| `samber-golang-database` | `skills/samber/golang-database` | MIT |
+| `samber-golang-dependency-injection` | `skills/samber/golang-dependency-injection` | MIT |
+| `samber-golang-dependency-management` | `skills/samber/golang-dependency-management` | MIT |
+| `samber-golang-design-patterns` | `skills/samber/golang-design-patterns` | MIT |
+| `samber-golang-documentation` | `skills/samber/golang-documentation` | MIT |
+| `samber-golang-error-handling` | `skills/samber/golang-error-handling` | MIT |
+| `samber-golang-gopls` | `skills/samber/golang-gopls` | MIT |
+| `samber-golang-how-to` | `skills/samber/golang-how-to` | MIT |
+| `samber-golang-lint` | `skills/samber/golang-lint` | MIT |
+| `samber-golang-modernize` | `skills/samber/golang-modernize` | MIT |
+| `samber-golang-naming` | `skills/samber/golang-naming` | MIT |
+| `samber-golang-observability` | `skills/samber/golang-observability` | MIT |
+| `samber-golang-performance` | `skills/samber/golang-performance` | MIT |
+| `samber-golang-pkg-go-dev` | `skills/samber/golang-pkg-go-dev` | MIT |
+| `samber-golang-popular-libraries` | `skills/samber/golang-popular-libraries` | MIT |
+| `samber-golang-project-layout` | `skills/samber/golang-project-layout` | MIT |
+| `samber-golang-refactoring` | `skills/samber/golang-refactoring` | MIT |
+| `samber-golang-safety` | `skills/samber/golang-safety` | MIT |
+| `samber-golang-security` | `skills/samber/golang-security` | MIT |
+| `samber-golang-structs-interfaces` | `skills/samber/golang-structs-interfaces` | MIT |
+| `samber-golang-testing` | `skills/samber/golang-testing` | MIT |
+| `samber-golang-troubleshooting` | `skills/samber/golang-troubleshooting` | MIT |
+| `samber-golang-stay-updated` | `skills/samber/golang-stay-updated` | MIT |
 
 因许可证或分发条件无法镜像的推荐项目及其官方安装方式，统一维护在
 [`external-skills.md`](external-skills.md)。这些条目不参与本仓库的快速安装、
@@ -57,43 +87,12 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts
 
 `--target` 可设为 `codex`、`claude` 或 `both`。使用单个 target 时，还可以通过 `--dest-root` 指定其他安装目录。如果你担心直接执行远程脚本，可以先把 URL 下载到本地，检查后再运行；生产环境还可以把 `main` 换成固定 commit。
 
-也可以只同步一个来源：
+openspec 系列 Skill（`fission-ai-openspec-*`）依赖 `openspec` CLI。安装器会在选中这些 Skill 时自动一并安装 CLI：优先使用 `npm`，其次 `pnpm`、`bun`、`yarn` 全局安装 `@fission-ai/openspec`；若 `openspec` 已在 `PATH` 中则跳过。不需要自动安装时可用 `--skip-openspec-cli` 关闭，此时若检测不到 CLI，脚本会提示手动补装：
 
 ```bash
-python3 scripts/sync-skills.py --only mattpocock-teach
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
+  | sh -s -- --skip-openspec-cli
 ```
-
-脚本默认只更新 `skills/` 下由来源清单管理的目录，并会拒绝越出仓库根目录的路径。
-
-## 添加来源
-
-编辑 `sources.toml`。Git 来源示例：
-
-```toml
-[[sources]]
-id = "publisher-skill"
-kind = "git"
-repo = "https://github.com/publisher/repository.git"
-ref = "main"
-path = "skills/example"
-dest = "skills/publisher/example"
-license = "Apache-2.0"
-```
-
-ZIP 来源示例：
-
-```toml
-[[sources]]
-id = "downloaded-skill"
-kind = "zip"
-url = "https://example.com/skill.zip"
-sha256 = "<64 位十六进制 SHA-256>"
-path = "skill"
-dest = "skills/vendor/downloaded-skill"
-license = "MIT"
-```
-
-提交来源时请同时记录许可证和原始地址。更新上游后，先查看 diff，再提交新的 lock 文件。
 
 ## 自动更新
 
