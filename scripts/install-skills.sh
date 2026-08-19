@@ -11,6 +11,13 @@ force="0"
 only=""
 dest_root=""
 skip_openspec_cli="0"
+progress_total="6"
+
+progress() {
+  step=$1
+  shift
+  printf '[%s/%s] %s\n' "$step" "$progress_total" "$*"
+}
 
 usage() {
   cat <<'EOF'
@@ -69,7 +76,9 @@ cleanup() { rm -f "$archive"; rm -rf "$work"; }
 trap cleanup EXIT HUP INT TERM
 
 archive_url="https://codeload.github.com/$owner/$name/tar.gz/$ref"
-curl -fsSL "$archive_url" -o "$archive"
+progress 1 "Downloading $owner/$name ($ref) ..."
+curl -fL --progress-bar "$archive_url" -o "$archive"
+progress 2 "Extracting repository archive ..."
 tar -xzf "$archive" -C "$work"
 library=$(find "$work" -mindepth 1 -maxdepth 1 -type d -print | head -n 1)
 if [ -z "$library" ] || [ ! -f "$library/sources.toml" ]; then
@@ -171,13 +180,13 @@ install_openspec_cli() {
   fi
 }
 
-found="0"
 openspec_selected="0"
 # Sources are deliberately read from the manifest rather than discovered with
 # find: this keeps the installation ID and set of installable skills identical
 # to the Python installer.  The collection's manifest values are quoted,
 # single-line TOML strings.
 skill_list="$work/skills.list"
+progress 3 "Reading registered Skill manifest ..."
 awk '
   /^\[\[sources\]\]/ { emit=1; id=""; dest=""; next }
   emit && $0 ~ /^[[:space:]]*id[[:space:]]*=/ {
@@ -195,6 +204,25 @@ awk '
   emit && id != "" && dest != "" { print id "\t" dest; emit=0 }
 ' "$library/sources.toml" > "$skill_list"
 
+selected_count="0"
+while IFS="$(printf '\t')" read -r id relative; do
+  if selected "$id"; then
+    selected_count=$((selected_count + 1))
+  fi
+done < "$skill_list"
+
+if [ "$selected_count" = "0" ]; then
+  if [ -n "$only" ]; then
+    echo "no matching Skill ID found: $only" >&2
+  else
+    echo "no SKILL.md files found" >&2
+  fi
+  exit 1
+fi
+
+progress 4 "Installing $selected_count Skill(s) for target: $target ..."
+current_skill="0"
+
 while IFS="$(printf '\t')" read -r id relative; do
   case "$id" in
     ""|*/*|*'..'*|*[!a-z0-9-]*)
@@ -209,10 +237,11 @@ while IFS="$(printf '\t')" read -r id relative; do
       ;;
   esac
   selected "$id" || continue
+  current_skill=$((current_skill + 1))
+  printf '  (%s/%s) %s\n' "$current_skill" "$selected_count" "$id"
   case "$id" in
     *openspec*) openspec_selected="1" ;;
   esac
-  found="1"
   skill_dir="$library/$relative"
   case "$target" in
     codex) install_one codex "$id" "$skill_dir" ;;
@@ -224,15 +253,7 @@ while IFS="$(printf '\t')" read -r id relative; do
   esac
 done < "$skill_list"
 
-if [ "$found" = "0" ]; then
-  if [ -n "$only" ]; then
-    echo "no matching Skill ID found: $only" >&2
-  else
-    echo "no SKILL.md files found" >&2
-  fi
-  exit 1
-fi
-
+progress 5 "Updating project configuration ..."
 if [ -z "$dest_root" ]; then
   case "$target" in
     codex) ensure_gitignore_entry codex ;;
@@ -244,6 +265,7 @@ if [ -z "$dest_root" ]; then
   esac
 fi
 
+progress 6 "Checking optional dependencies ..."
 if [ "$openspec_selected" = "1" ]; then
   if [ "$skip_openspec_cli" = "1" ]; then
     if ! command -v openspec >/dev/null 2>&1; then
@@ -254,3 +276,5 @@ if [ "$openspec_selected" = "1" ]; then
     install_openspec_cli
   fi
 fi
+
+echo "Installation complete: $selected_count Skill(s) installed for $target."
