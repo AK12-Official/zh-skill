@@ -4,7 +4,7 @@
       "kind": "git",
       "repo": "https://github.com/mattpocock/skills.git",
       "ref": "main",
-      "commit": "9c9f36ccd3995266cd675468af71639c8dde1ec5",
+      "commit": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
       "dest": "skills/mattpocock/teach",
       "license": "MIT"
     },
@@ -12,7 +12,7 @@
       "kind": "git",
       "repo": "https://github.com/mattpocock/skills.git",
       "ref": "main",
-      "commit": "9c9f36ccd3995266cd675468af71639c8dde1ec5",
+      "commit": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
       "dest": "skills/mattpocock/handoff",
       "license": "MIT"
     },
@@ -20,7 +20,7 @@
       "kind": "git",
       "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
       "ref": "main",
-      "commit": "a38d04c3d5c298c851dbe5e6ee1965ee3de42cb5",
+      "commit": "bc826e2267a36d98a2dcf5231e16c30ff546770f",
       "dest": "skills/nextlevelbuilder/ui-ux-pro-max",
       "license": "MIT"
     },
@@ -28,7 +28,7 @@
       "kind": "git",
       "repo": "https://github.com/slidevjs/slidev.git",
       "ref": "main",
-      "commit": "1877b3014ecc8f256e8c4df799035252a1968fc2",
+      "commit": "dbc307b416d002d7d02ddb9742b9254427c5c299",
       "dest": "skills/slidevjs/slidev",
       "license": "MIT"
     },
@@ -36,7 +36,7 @@
       "kind": "git",
       "repo": "https://github.com/mattpocock/skills.git",
       "ref": "main",
-      "commit": "9c9f36ccd3995266cd675468af71639c8dde1ec5",
+      "commit": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
       "dest": "skills/mattpocock/grill-me",
       "license": "MIT"
     },
@@ -44,7 +44,7 @@
       "kind": "git",
       "repo": "https://github.com/mattpocock/skills.git",
       "ref": "main",
-      "commit": "9c9f36ccd3995266cd675468af71639c8dde1ec5",
+      "commit": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
       "dest": "skills/mattpocock/grilling",
       "license": "MIT"
     },
@@ -52,7 +52,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "2826b8889e5223a9a8095d4428b60b56597e1020",
+      "commit": "f1b521dffac38ed6638689cd28b0c204b1eef0f1",
       "dest": "skills/fission-ai/openspec-explore",
       "license": "MIT"
     },
@@ -60,7 +60,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "2826b8889e5223a9a8095d4428b60b56597e1020",
+      "commit": "f1b521dffac38ed6638689cd28b0c204b1eef0f1",
       "dest": "skills/fission-ai/openspec-propose",
       "license": "MIT"
     },
@@ -68,7 +68,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "2826b8889e5223a9a8095d4428b60b56597e1020",
+      "commit": "f1b521dffac38ed6638689cd28b0c204b1eef0f1",
       "dest": "skills/fission-ai/openspec-apply-change",
       "license": "MIT"
     },
@@ -76,7 +76,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "2826b8889e5223a9a8095d4428b60b56597e1020",
+      "commit": "f1b521dffac38ed6638689cd28b0c204b1eef0f1",
       "dest": "skills/fission-ai/openspec-archive-change",
       "license": "MIT"
     },
@@ -84,7 +84,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-benchmark",
       "license": "MIT"
     },
@@ -92,7 +92,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-cli",
       "license": "MIT"
     },
@@ -100,7 +100,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-code-style",
       "license": "MIT"
     },
@@ -108,7 +108,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-concurrency",
       "license": "MIT"
     },
@@ -116,7 +116,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-context",
       "license": "MIT"
     },
@@ -124,7 +124,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-continuous-integration",
       "license": "MIT"
     },
@@ -132,7 +132,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-data-structures",
       "license": "MIT"
     },
@@ -140,7 +140,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-database",
       "license": "MIT"
     },
@@ -148,7 +148,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-dependency-injection",
       "license": "MIT"
     },
@@ -156,7 +156,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-dependency-management",
       "license": "MIT"
     },
@@ -164,7 +164,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-design-patterns",
       "license": "MIT"
     },
@@ -172,7 +172,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-documentation",
       "license": "MIT"
     },
@@ -180,7 +180,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-error-handling",
       "license": "MIT"
     },
@@ -188,7 +188,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-gopls",
       "license": "MIT"
     },
@@ -196,7 +196,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-how-to",
       "license": "MIT"
     },
@@ -204,7 +204,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-lint",
       "license": "MIT"
     },
@@ -212,7 +212,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-modernize",
       "license": "MIT"
     },
@@ -220,7 +220,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-naming",
       "license": "MIT"
     },
@@ -228,7 +228,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-observability",
       "license": "MIT"
     },
@@ -236,7 +236,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-performance",
       "license": "MIT"
     },
@@ -244,7 +244,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-pkg-go-dev",
       "license": "MIT"
     },
@@ -252,7 +252,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-popular-libraries",
       "license": "MIT"
     },
@@ -260,7 +260,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-project-layout",
       "license": "MIT"
     },
@@ -268,7 +268,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-refactoring",
       "license": "MIT"
     },
@@ -276,7 +276,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-safety",
       "license": "MIT"
     },
@@ -284,7 +284,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-security",
       "license": "MIT"
     },
@@ -292,7 +292,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-structs-interfaces",
       "license": "MIT"
     },
@@ -300,7 +300,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-testing",
       "license": "MIT"
     },
@@ -308,7 +308,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-troubleshooting",
       "license": "MIT"
     },
@@ -316,7 +316,7 @@
       "kind": "git",
       "repo": "https://github.com/samber/cc-skills-golang.git",
       "ref": "main",
-      "commit": "30cdf15cde8db8730c42a2918d7cdb4505f5ff54",
+      "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-stay-updated",
       "license": "MIT"
     }
