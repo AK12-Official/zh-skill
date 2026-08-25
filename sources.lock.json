@@ -319,6 +319,14 @@
       "commit": "a18860b303ef1d3d928f9670631e03210b8698bf",
       "dest": "skills/samber/golang-stay-updated",
       "license": "MIT"
+    },
+    "dreambigou-eli5": {
+      "kind": "git",
+      "repo": "https://github.com/DreambigOu/ELI5.git",
+      "ref": "main",
+      "commit": "a766623b062331fdde53467001379b4ddf3acc2f",
+      "dest": "skills/dreambigou/eli5",
+      "license": "MIT"
     }
   }
 }
