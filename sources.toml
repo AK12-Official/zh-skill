@@ -370,3 +370,12 @@ ref = "main"
 path = "skills/golang-stay-updated"
 dest = "skills/samber/golang-stay-updated"
 license = "MIT"
+
+[[sources]]
+id = "dreambigou-eli5"
+kind = "git"
+repo = "https://github.com/DreambigOu/ELI5.git"
+ref = "main"
+path = "skills/eli5"
+dest = "skills/dreambigou/eli5"
+license = "MIT"
