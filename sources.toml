@@ -388,12 +388,3 @@ ref = "main"
 path = "architecture-diagram"
 dest = "skills/cocoon-ai/architecture-diagram"
 license = "MIT"
-
-[[sources]]
-id = "hugohe3-ppt-master"
-kind = "git"
-repo = "https://github.com/hugohe3/ppt-master.git"
-ref = "main"
-path = "skills/ppt-master"
-dest = "skills/hugohe3/ppt-master"
-license = "MIT"
