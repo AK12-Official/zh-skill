@@ -327,6 +327,22 @@
       "commit": "a766623b062331fdde53467001379b4ddf3acc2f",
       "dest": "skills/dreambigou/eli5",
       "license": "MIT"
+    },
+    "cocoon-ai-architecture-diagram": {
+      "kind": "git",
+      "repo": "https://github.com/Cocoon-AI/architecture-diagram-generator.git",
+      "ref": "main",
+      "commit": "4b9087d55268c79a935105439dbcd37b630fc3f3",
+      "dest": "skills/cocoon-ai/architecture-diagram",
+      "license": "MIT"
+    },
+    "hugohe3-ppt-master": {
+      "kind": "git",
+      "repo": "https://github.com/hugohe3/ppt-master.git",
+      "ref": "main",
+      "commit": "ebd74d1f1d61a686f0f80e10abde5029fc4beeca",
+      "dest": "skills/hugohe3/ppt-master",
+      "license": "MIT"
     }
   }
 }
