@@ -4,7 +4,7 @@
       "kind": "git",
       "repo": "https://github.com/mattpocock/skills.git",
       "ref": "main",
-      "commit": "3cca18b368ae95cdbdebbff572ccafa662551015",
+      "commit": "f6abdeb8dd2a9be64f924ab44c7af374cb76726d",
       "dest": "skills/mattpocock/teach",
       "license": "MIT"
     },
@@ -12,7 +12,7 @@
       "kind": "git",
       "repo": "https://github.com/mattpocock/skills.git",
       "ref": "main",
-      "commit": "3cca18b368ae95cdbdebbff572ccafa662551015",
+      "commit": "f6abdeb8dd2a9be64f924ab44c7af374cb76726d",
       "dest": "skills/mattpocock/handoff",
       "license": "MIT"
     },
@@ -20,7 +20,7 @@
       "kind": "git",
       "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
       "ref": "main",
-      "commit": "7f69fed6a2717900085f1bc3b263721f8ba025e2",
+      "commit": "477bcb28c9812b385cb51a4605ddf30d7b2266e2",
       "dest": "skills/nextlevelbuilder/ui-ux-pro-max",
       "license": "MIT"
     },
@@ -28,7 +28,7 @@
       "kind": "git",
       "repo": "https://github.com/slidevjs/slidev.git",
       "ref": "main",
-      "commit": "a8d8ff717c5a72c1b3a9d98f1c849481f2ddcd00",
+      "commit": "73053ab2b9653ed475960301b56e1ce4439d9c75",
       "dest": "skills/slidevjs/slidev",
       "license": "MIT"
     },
@@ -36,7 +36,7 @@
       "kind": "git",
       "repo": "https://github.com/mattpocock/skills.git",
       "ref": "main",
-      "commit": "3cca18b368ae95cdbdebbff572ccafa662551015",
+      "commit": "f6abdeb8dd2a9be64f924ab44c7af374cb76726d",
       "dest": "skills/mattpocock/grill-me",
       "license": "MIT"
     },
@@ -44,7 +44,7 @@
       "kind": "git",
       "repo": "https://github.com/mattpocock/skills.git",
       "ref": "main",
-      "commit": "3cca18b368ae95cdbdebbff572ccafa662551015",
+      "commit": "f6abdeb8dd2a9be64f924ab44c7af374cb76726d",
       "dest": "skills/mattpocock/grilling",
       "license": "MIT"
     },
@@ -52,7 +52,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "9d4e5974e5c0d9a09b9c6c1e1eb0975e80ec4461",
+      "commit": "2500d6da971336167548b53731a35b2127df35ac",
       "dest": "skills/fission-ai/openspec-explore",
       "license": "MIT"
     },
@@ -60,7 +60,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "9d4e5974e5c0d9a09b9c6c1e1eb0975e80ec4461",
+      "commit": "2500d6da971336167548b53731a35b2127df35ac",
       "dest": "skills/fission-ai/openspec-propose",
       "license": "MIT"
     },
@@ -68,7 +68,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "9d4e5974e5c0d9a09b9c6c1e1eb0975e80ec4461",
+      "commit": "2500d6da971336167548b53731a35b2127df35ac",
       "dest": "skills/fission-ai/openspec-apply-change",
       "license": "MIT"
     },
@@ -76,7 +76,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "9d4e5974e5c0d9a09b9c6c1e1eb0975e80ec4461",
+      "commit": "2500d6da971336167548b53731a35b2127df35ac",
       "dest": "skills/fission-ai/openspec-archive-change",
       "license": "MIT"
     },
