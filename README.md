@@ -29,6 +29,7 @@
 | `slidevjs-slidev` | `skills/slidevjs/slidev` | MIT |
 | `dreambigou-eli5` | `skills/dreambigou/eli5` | MIT |
 | `cocoon-ai-architecture-diagram` | `skills/cocoon-ai/architecture-diagram` | MIT |
+| `github-git-commit` | `skills/github/git-commit` | MIT |
 
 因许可证或分发条件无法镜像的推荐项目及其官方安装方式，统一维护在
 [`external-skills.md`](external-skills.md)。这些条目不参与本仓库的快速安装、

@@ -95,6 +95,14 @@
       "commit": "4b9087d55268c79a935105439dbcd37b630fc3f3",
       "dest": "skills/cocoon-ai/architecture-diagram",
       "license": "MIT"
+    },
+    "github-git-commit": {
+      "kind": "git",
+      "repo": "https://github.com/github/awesome-copilot.git",
+      "ref": "main",
+      "commit": "3a685010a7afdc0dbd4c83b7fbda6c316aa516e5",
+      "dest": "skills/github/git-commit",
+      "license": "MIT"
     }
   }
 }

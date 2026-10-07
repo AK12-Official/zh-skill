@@ -118,3 +118,12 @@ ref = "main"
 path = "architecture-diagram"
 dest = "skills/cocoon-ai/architecture-diagram"
 license = "MIT"
+
+[[sources]]
+id = "github-git-commit"
+kind = "git"
+repo = "https://github.com/github/awesome-copilot.git"
+ref = "main"
+path = "skills/git-commit"
+dest = "skills/github/git-commit"
+license = "MIT"
