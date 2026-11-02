@@ -8,6 +8,8 @@ repo="https://github.com/AK12-Official/zh-skill"
 ref="main"
 target="both"
 force="0"
+update="0"
+installed_count="0"
 only=""
 dest_root=""
 skip_openspec_cli="0"
@@ -29,6 +31,7 @@ Usage: install-skills.sh [options]
   --only ID        install only one registered Skill ID; repeatable
   --dest-root DIR  override one installation root (single target only)
   --force          replace existing installed directories
+  --update         update installed skills only; skip missing destinations
   --skip-openspec-cli
                    do not install the openspec CLI (by default it is installed
                    automatically when any openspec skill is selected)
@@ -43,6 +46,7 @@ while [ "$#" -gt 0 ]; do
     --only) only="$only $2"; shift 2 ;;
     --dest-root) dest_root=$2; shift 2 ;;
     --force) force="1"; shift ;;
+    --update) update="1"; shift ;;
     --skip-openspec-cli) skip_openspec_cli="1"; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "unknown option: $1" >&2; usage >&2; exit 2 ;;
@@ -125,19 +129,34 @@ install_one() {
   source_dir=$3
   root=$(install_root "$platform")
   destination="$root/$id"
+  if [ "$update" = "1" ] && [ ! -e "$destination" ] && [ ! -L "$destination" ]; then
+    echo "[$platform] skipped (not installed): $id"
+    return 0
+  fi
   if [ ! -f "$source_dir/SKILL.md" ]; then
     echo "registered Skill is missing SKILL.md: $source_dir" >&2
     exit 1
   fi
   mkdir -p "$root"
   if [ -e "$destination" ] || [ -L "$destination" ]; then
-    if [ "$force" != "1" ]; then
+    if [ "$force" != "1" ] && [ "$update" != "1" ]; then
       echo "already exists (use --force): $destination" >&2
       exit 1
     fi
-    rm -rf "$destination"
   fi
-  cp -R "$source_dir" "$destination"
+  # Stage the complete skill before replacing the previous installation.
+  staged=$(mktemp -d "$root/.zh-skill.XXXXXX")
+  if ! cp -R "$source_dir/." "$staged/"; then
+    rm -rf "$staged"
+    echo "failed to copy Skill: $id; existing installation preserved" >&2
+    exit 1
+  fi
+  rm -rf "$destination"
+  mv "$staged" "$destination"
+  installed_count=$((installed_count + 1))
+  case "$id" in
+    *openspec*) openspec_selected="1" ;;
+  esac
   echo "[$platform] $id -> $destination"
 }
 
@@ -220,7 +239,9 @@ if [ "$selected_count" = "0" ]; then
   exit 1
 fi
 
-progress 4 "Installing $selected_count Skill(s) for target: $target ..."
+action="Installing"
+[ "$update" = "0" ] || action="Updating installed"
+progress 4 "$action Skill(s) from $selected_count selected for target: $target ..."
 current_skill="0"
 
 while IFS="$(printf '\t')" read -r id relative; do
@@ -239,9 +260,6 @@ while IFS="$(printf '\t')" read -r id relative; do
   selected "$id" || continue
   current_skill=$((current_skill + 1))
   printf '  (%s/%s) %s\n' "$current_skill" "$selected_count" "$id"
-  case "$id" in
-    *openspec*) openspec_selected="1" ;;
-  esac
   skill_dir="$library/$relative"
   case "$target" in
     codex) install_one codex "$id" "$skill_dir" ;;
@@ -254,7 +272,7 @@ while IFS="$(printf '\t')" read -r id relative; do
 done < "$skill_list"
 
 progress 5 "Updating project configuration ..."
-if [ -z "$dest_root" ]; then
+if [ -z "$dest_root" ] && [ "$update" = "0" ]; then
   case "$target" in
     codex) ensure_gitignore_entry codex ;;
     claude) ensure_gitignore_entry claude ;;
@@ -277,4 +295,8 @@ if [ "$openspec_selected" = "1" ]; then
   fi
 fi
 
-echo "Installation complete: $selected_count Skill(s) installed for $target."
+if [ "$update" = "1" ]; then
+  echo "Update complete: $installed_count installation(s) updated for $target."
+else
+  echo "Installation complete: $installed_count installation(s) installed for $target."
+fi

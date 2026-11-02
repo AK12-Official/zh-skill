@@ -67,7 +67,30 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts
   | sh -s -- --skip-openspec-cli
 ```
 
-## 自动更新
+## 更新已安装 Skill
+
+在目标项目根目录运行独立更新模式：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
+  | sh -s -- --update
+```
+
+`--update` 只替换所选目标中已经存在的 Skill 目录，未安装的会跳过；不需要额外传入
+`--force`。默认分别检查 Codex 和 Claude 的安装目录，因此只安装在一侧的 Skill
+不会被自动安装到另一侧。没有已安装项时正常退出并报告更新数为 0。
+
+可组合 `--only ID`（可重复）、`--target`、`--dest-root`、`--repo` 和 `--ref`：
+
+```bash
+sh scripts/install-skills.sh --update --target codex --only github-git-commit
+```
+
+更新以指定仓库和 ref 的完整目录为准，会覆盖本地修改并清除旧版本已删除的文件；
+如需保留自定义内容，请先备份。脚本先复制新文件，再替换原目录；更新模式不会修改
+项目 `.gitignore`。仅实际安装或更新 openspec Skill 时才检查其 CLI 依赖。
+
+## 仓库自动同步
 
 `.github/workflows/update-skills.yml` 每周运行一次，也可以手动触发。它会在有变化时创建 Pull Request；工作流不会直接推送到主分支。
 
