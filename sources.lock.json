@@ -20,7 +20,7 @@
       "kind": "git",
       "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
       "ref": "main",
-      "commit": "3a13158ff1f32156cbe144108de48eda2ecaed9a",
+      "commit": "4f2dbb67e64969a9a30ab00742f2d55d66ddec2b",
       "dest": "skills/nextlevelbuilder/ui-ux-pro-max",
       "license": "MIT"
     },
@@ -28,7 +28,7 @@
       "kind": "git",
       "repo": "https://github.com/slidevjs/slidev.git",
       "ref": "main",
-      "commit": "a42aff28dd75f26eb5abbf3d616ea022c3d08924",
+      "commit": "437f139ccd4c8482a193b217922e7800a5b3baec",
       "dest": "skills/slidevjs/slidev",
       "license": "MIT"
     },
@@ -52,7 +52,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "27c0515724decc633818c735ee596481eec78a8b",
+      "commit": "0fa4a9705c20ef1c571fe3ded74435733e4b73a1",
       "dest": "skills/fission-ai/openspec-explore",
       "license": "MIT"
     },
@@ -60,7 +60,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "27c0515724decc633818c735ee596481eec78a8b",
+      "commit": "0fa4a9705c20ef1c571fe3ded74435733e4b73a1",
       "dest": "skills/fission-ai/openspec-propose",
       "license": "MIT"
     },
@@ -68,7 +68,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "27c0515724decc633818c735ee596481eec78a8b",
+      "commit": "0fa4a9705c20ef1c571fe3ded74435733e4b73a1",
       "dest": "skills/fission-ai/openspec-apply-change",
       "license": "MIT"
     },
@@ -76,7 +76,7 @@
       "kind": "git",
       "repo": "https://github.com/Fission-AI/OpenSpec.git",
       "ref": "main",
-      "commit": "27c0515724decc633818c735ee596481eec78a8b",
+      "commit": "0fa4a9705c20ef1c571fe3ded74435733e4b73a1",
       "dest": "skills/fission-ai/openspec-archive-change",
       "license": "MIT"
     },
@@ -100,7 +100,7 @@
       "kind": "git",
       "repo": "https://github.com/github/awesome-copilot.git",
       "ref": "main",
-      "commit": "61fa1fa8fcc63d6dbd2f07a75aeb8e214df5acfb",
+      "commit": "b13e55f85ffdf451d40d09839cb1e337bf3eda98",
       "dest": "skills/github/git-commit",
       "license": "MIT"
     }
