@@ -1,0 +1,16 @@
+# golangci-lint v2; formatting remains a separate gofmt check.
+version: "2"
+run:
+  timeout: 5m
+  tests: true
+linters:
+  default: none
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - bodyclose
+    - errorlint
+    - nolintlint

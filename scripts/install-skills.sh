@@ -1,18 +1,20 @@
 #!/usr/bin/env sh
-# Install registered skills from a public zh-skill GitHub repository without
+# Install registered skills from a public set-up GitHub repository without
 # cloning it.  This script intentionally uses only POSIX sh, curl, tar, awk,
 # and cp so it can be run directly from curl on machines without Python.
 set -eu
 
-repo="https://github.com/AK12-Official/zh-skill"
+repo="https://github.com/AK12-Official/set-up"
 ref="main"
-target="both"
+target="codex,antigravity"
 force="0"
 update="0"
 installed_count="0"
 only=""
 dest_root=""
 skip_openspec_cli="0"
+manage_gitignore="1"
+dry_run="0"
 progress_total="6"
 
 progress() {
@@ -25,11 +27,14 @@ usage() {
   cat <<'EOF'
 Usage: install-skills.sh [options]
 
-  --repo URL       zh-skill GitHub repository (default: AK12-Official/zh-skill)
+  --repo URL       set-up GitHub repository (default: AK12-Official/set-up)
   --ref REF        branch, tag, or commit (default: main)
-  --target NAME    codex, claude, or both (default: both)
+  --target NAME    comma-separated codex, antigravity, claude (default: codex,antigravity)
+                   both remains an alias for codex,claude
   --only ID        install only one registered Skill ID; repeatable
   --dest-root DIR  override one installation root (single target only)
+  --dry-run        preview installation without writing project files
+  --no-gitignore   let the setup entry point manage ignore rules
   --force          replace existing installed directories
   --update         update installed skills only; skip missing destinations
   --skip-openspec-cli
@@ -45,6 +50,8 @@ while [ "$#" -gt 0 ]; do
     --target) target=$2; shift 2 ;;
     --only) only="$only $2"; shift 2 ;;
     --dest-root) dest_root=$2; shift 2 ;;
+    --dry-run) dry_run="1"; shift ;;
+    --no-gitignore) manage_gitignore="0"; shift ;;
     --force) force="1"; shift ;;
     --update) update="1"; shift ;;
     --skip-openspec-cli) skip_openspec_cli="1"; shift ;;
@@ -53,12 +60,19 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+[ "$target" != "both" ] || target="codex,claude"
 case "$target" in
-  codex|claude|both) ;;
-  *) echo "--target must be codex, claude, or both" >&2; exit 2 ;;
+  ""|,*|*,|*,,*) echo "invalid --target list" >&2; exit 2 ;;
 esac
-if [ -n "$dest_root" ] && [ "$target" = "both" ]; then
-  echo "--dest-root cannot be used with --target both" >&2
+targets=$(printf '%s' "$target" | tr ',' ' ')
+for platform in $targets; do
+  case "$platform" in
+    codex|antigravity|claude) ;;
+    *) echo "unknown target: $platform" >&2; exit 2 ;;
+  esac
+done
+if [ -n "$dest_root" ] && [ "${target#*,}" != "$target" ]; then
+  echo "--dest-root requires a single target" >&2
   exit 2
 fi
 
@@ -74,8 +88,8 @@ if [ -z "$owner" ] || [ -z "$name" ] || [ "$owner" = "$repo_path" ]; then
   exit 2
 fi
 
-archive=$(mktemp "${TMPDIR:-/tmp}/zh-skill.XXXXXX.tar.gz")
-work=$(mktemp -d "${TMPDIR:-/tmp}/zh-skill.XXXXXX")
+archive=$(mktemp "${TMPDIR:-/tmp}/set-up.XXXXXX.tar.gz")
+work=$(mktemp -d "${TMPDIR:-/tmp}/set-up.XXXXXX")
 cleanup() { rm -f "$archive"; rm -rf "$work"; }
 trap cleanup EXIT HUP INT TERM
 
@@ -106,6 +120,7 @@ install_root() {
   fi
   case "$1" in
     codex) printf '%s\n' "$project_root/.codex/skills" ;;
+    antigravity) printf '%s\n' "$project_root/.agents/skills" ;;
     claude) printf '%s\n' "$project_root/.claude/skills" ;;
   esac
 }
@@ -137,15 +152,19 @@ install_one() {
     echo "registered Skill is missing SKILL.md: $source_dir" >&2
     exit 1
   fi
-  mkdir -p "$root"
   if [ -e "$destination" ] || [ -L "$destination" ]; then
     if [ "$force" != "1" ] && [ "$update" != "1" ]; then
       echo "already exists (use --force): $destination" >&2
       exit 1
     fi
   fi
+  if [ "$dry_run" = "1" ]; then
+    echo "[$platform] would install/update: $destination"
+    return 0
+  fi
+  mkdir -p "$root"
   # Stage the complete skill before replacing the previous installation.
-  staged=$(mktemp -d "$root/.zh-skill.XXXXXX")
+  staged=$(mktemp -d "$root/.set-up.XXXXXX")
   if ! cp -R "$source_dir/." "$staged/"; then
     rm -rf "$staged"
     echo "failed to copy Skill: $id; existing installation preserved" >&2
@@ -261,26 +280,19 @@ while IFS="$(printf '\t')" read -r id relative; do
   current_skill=$((current_skill + 1))
   printf '  (%s/%s) %s\n' "$current_skill" "$selected_count" "$id"
   skill_dir="$library/$relative"
-  case "$target" in
-    codex) install_one codex "$id" "$skill_dir" ;;
-    claude) install_one claude "$id" "$skill_dir" ;;
-    both)
-      install_one codex "$id" "$skill_dir"
-      install_one claude "$id" "$skill_dir"
-      ;;
-  esac
+  for platform in $targets; do
+    install_one "$platform" "$id" "$skill_dir"
+  done
 done < "$skill_list"
 
 progress 5 "Updating project configuration ..."
-if [ -z "$dest_root" ] && [ "$update" = "0" ]; then
-  case "$target" in
-    codex) ensure_gitignore_entry codex ;;
-    claude) ensure_gitignore_entry claude ;;
-    both)
-      ensure_gitignore_entry codex
-      ensure_gitignore_entry claude
-      ;;
-  esac
+if [ -z "$dest_root" ] && [ "$update" = "0" ] && [ "$manage_gitignore" = "1" ] && [ "$dry_run" = "0" ]; then
+  for platform in $targets; do
+    case "$platform" in
+      antigravity) ensure_gitignore_entry agents ;;
+      *) ensure_gitignore_entry "$platform" ;;
+    esac
+  done
 fi
 
 progress 6 "Checking optional dependencies ..."

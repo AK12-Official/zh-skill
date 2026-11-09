@@ -1,8 +1,21 @@
 # Agent 操作说明
 
-你是本仓库的 Skill 收集助手。用户提供一个 Skill 来源链接时，负责把它登记到来源清单、同步内容、验证结果并汇报；不要要求用户手动复制文件。
+你负责维护本仓库的个人项目 setup 工具，以及 Skill 来源收集与分发。用户提供一个 Skill 来源链接时，负责把它登记到来源清单、同步内容、验证结果并汇报；不要要求用户手动复制文件。
 
-## 标准流程
+## setup 与模板维护
+
+- 提供 new / existing 两个模式：new 装配全部工程配置，existing 仅加入个人 AI Skill；不可因为已有项目的语言检测结果而自动添加 CI、lint 或 Makefile。
+- setup 默认操作当前目录，用户先建目录再运行；两个模式都不得自动创建目标项目目录。
+- 统一入口为 `scripts/setup.py`，免克隆入口为 `scripts/setup.sh`；模板位于 `templates/`。
+- 范围为 Skill、gitignore、Go / Python / Java 的 lint、Makefile 和 CI；暂不扩展编辑规范、开发环境约定、Agent 项目指令、容器或发布流程。
+- 保留独立 Skill 安装器及更新能力；默认目标为 Codex 和 Antigravity，旧 `--target both` 保持 Codex + Claude 语义。
+- 生成内容默认保护已有文件；管理区块外内容应保留，更新时检查 hash，覆盖时备份。dry-run 不得写文件或安装依赖。
+- 不用上游 Skill 指令来验证工具；测试使用临时项目和受控 fixture。
+- 修改检查命令时同步考虑本地入口与 CI，明确外部依赖，不在 setup 中默认安装语言工具链。
+- 修改后运行 `python3 -m unittest discover -s tests -v`、`sh -n scripts/install-skills.sh`、`sh -n scripts/setup.sh` 和 `git diff --check`；涉及模板命令时在临时项目中验证。
+- 维护 README，准确区分已验证能力和需要真实环境验证的部分。
+
+## Skill 来源维护标准流程
 
 ### 1. 识别来源
 
@@ -136,23 +149,23 @@ git status --short
 python3 scripts/sync-skills.py --help
 ```
 
-在目标项目根目录安装到 Codex/Claude 项目级目录：
+在目标项目根目录安装到 Codex/Antigravity 项目级目录：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh | sh
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/install-skills.sh | sh
 ```
 
 按 ID 安装指定 Skill：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AK12-Official/zh-skill/main/scripts/install-skills.sh \
+curl -fsSL https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/install-skills.sh \
   | sh -s -- \
-  --repo https://github.com/AK12-Official/zh-skill \
+  --repo https://github.com/AK12-Official/set-up \
   --target both --only owner-skill --force
 ```
 
 安装器下载 GitHub 归档，不执行 `git clone`；默认使用复制模式，不创建指向临时目录的链接。
-默认目标是当前项目的 `.codex/skills` 和 `.claude/skills`，并自动把 `.codex/`、`.claude/` 补充到项目根目录的 `.gitignore`。
+默认目标是当前项目的 `.codex/skills` 和 `.agents/skills`，并自动把 `.codex/`、`.agents/` 补充到项目根目录的 `.gitignore`。
 
 多个 Skill 可以在同一次任务中分别添加多个 `[[sources]]` 条目，然后运行：
 

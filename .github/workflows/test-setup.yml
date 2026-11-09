@@ -1,0 +1,23 @@
+name: Test project setup
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-go@v7
+        with:
+          go-version: '1.25'
+          cache: false
+      - uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.13.2
+          install-only: true
+      - run: python3 -m unittest discover -s tests -v
+      - run: sh -n scripts/install-skills.sh && sh -n scripts/setup.sh
+      - run: git diff --check

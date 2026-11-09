@@ -74,7 +74,7 @@ def copy_source(source: Path, dest: Path, dry_run: bool) -> None:
 
 
 def sync_git(item: dict, dest: Path, dry_run: bool) -> dict:
-    with tempfile.TemporaryDirectory(prefix="zh-skill-git-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="set-up-git-") as tmp:
         checkout = Path(tmp) / "repo"
         run("git", "clone", "--filter=blob:none", "--no-checkout", item["repo"], str(checkout))
         run("git", "fetch", "--depth=1", "origin", item.get("ref", "HEAD"), cwd=checkout)
@@ -89,7 +89,7 @@ def sync_zip(item: dict, dest: Path, dry_run: bool) -> dict:
     expected = item.get("sha256", "").lower()
     if len(expected) != 64:
         raise ValueError(f"ZIP 来源 {item['id']} 必须提供 64 位 sha256")
-    with tempfile.TemporaryDirectory(prefix="zh-skill-zip-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="set-up-zip-") as tmp:
         archive = Path(tmp) / "source.zip"
         urllib.request.urlretrieve(item["url"], archive)
         actual = hashlib.sha256(archive.read_bytes()).hexdigest()

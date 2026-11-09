@@ -63,6 +63,19 @@ class InstallerTest(unittest.TestCase):
             self.assertTrue((installed / 'SKILL.md').exists())
             run('--target', 'codex', '--only', 'demo', '--force')
             run('--update', '--only', 'unknown', ok=False)
+            run('--only', 'demo', '--force')
+            self.assertTrue((project / '.agents/skills/demo/SKILL.md').exists())
+            self.assertFalse((project / '.claude/skills/demo').exists())
+            run('--target', 'both', '--only', 'demo', '--force')
+            self.assertTrue((project / '.claude/skills/demo/SKILL.md').exists())
+            run('--target', 'antigravity,claude', '--only', 'demo', '--force')
+            before = (project / '.gitignore').read_text()
+            run('--target', 'claude', '--only', 'new-openspec', '--dry-run')
+            self.assertFalse((project / '.claude/skills/new-openspec').exists())
+            self.assertEqual((project / '.gitignore').read_text(), before)
+            run('--target', 'unknown', '--only', 'demo', ok=False)
+            run('--target', 'codex,claude', '--dest-root', str(custom), ok=False)
+
 
 
 if __name__ == '__main__':
