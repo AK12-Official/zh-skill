@@ -20,7 +20,7 @@ import dependencies
 
 REPO = Path(__file__).resolve().parent.parent
 TEMPLATES = REPO / "templates"
-VERSION = 3
+VERSION = 4
 MODULES = {"skills", "gitignore", "lint", "makefile", "ci"}
 LANGUAGES = {"go", "python", "java"}
 AGENTS = {"codex": ".codex", "antigravity": ".agents", "claude": ".claude"}

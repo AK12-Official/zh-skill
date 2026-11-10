@@ -8,7 +8,7 @@
 | --- | --- |
 | 修改 setup 模式、参数、文件保护 | `scripts/setup.py`，规则详见 [使用手册](docs/setup.md) |
 | 修改一键入口与依赖补齐 | `scripts/setup.sh`（启动依赖）、`scripts/dependencies.py`（按模式/语言装配） |
-| 修改语言检查、Makefile、CI 生成 | `templates/`、`scripts/setup.py`；执行入口模板为 `templates/check.py` |
+| 修改语言检查、Makefile、CI 生成 | `templates/`、`scripts/setup.py`；执行入口模板为 `templates/check.py`，策略依据见 [lint 说明](docs/lint.md) |
 | 修改 Skill 安装和更新 | `scripts/install-skills.sh`、`tests/test_install_skills.py` |
 | 收录或同步上游 Skill | [Skill 来源维护](docs/skills.md)，再读 `sources.toml` 和 `sources.lock.json` |
 | 修改仓库自动更新 | `.github/workflows/update-skills.yml`、`scripts/sync-skills.py` |
@@ -30,7 +30,7 @@
 ## 维护仓库
 
 1. 先看 `git status --short`，保留用户已有改动，只修改任务相关文件。
-2. 修改模板时检查是否需要递增 `scripts/setup.py` 的 `VERSION`；不要直接改目标项目的生成结果来代替模板修改。
+2. lint 策略调整须区分官方默认值、官方推荐区间和仓库选择；保持已有项目的配置保护，用违规代码验证实际报告，不能只验证配置文本存在。修改模板时检查是否需要递增 `scripts/setup.py` 的 `VERSION`；不要直接改目标项目的生成结果来代替模板修改。
 3. 调整参数、默认行为或依赖时，同步修改相关文档。README 保留一键配置、模式选择、Skill 更新和已收录表；参数及内部实现不要重新堆回 README。
 4. 源码改动运行下列检查；检查命令变化还应在临时项目中验证生成结果。纯文档改动检查链接、命令参数、来源表与清单一致性及 `git diff --check` 即可。
 

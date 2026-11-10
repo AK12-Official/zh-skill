@@ -209,9 +209,11 @@ CI 在选择 Makefile 模块时也通过 Make 目标进入共用入口；独立�
 
 | 语言 | 格式 | lint | 测试与构建 |
 | --- | --- | --- | --- |
-| Go | gofmt | golangci-lint v2，含 govet、errcheck 等 | go test / go build |
+| Go | gofmt | golangci-lint v2，含正确性、长度和复杂度检查 | go test / go build |
 | Python | Ruff format | Ruff check | pytest；有包元数据时调用 build |
 | Java | google-java-format | Checkstyle | 现有 Maven / Gradle 工程与 wrapper |
+
+默认长度与复杂度阈值及官方依据见 [lint 策略](lint.md)。
 
 `check` 不修正源码格式，`format` 才修改源码。多语言项目可通过 `SETUP_LANGUAGE` 或检查入口的 `--language` 筛选，任一步失败会返回非零状态，不继续后面的步骤。无 Python 包元数据时跳过构建，无测试时保留 pytest 的非零结果。
 

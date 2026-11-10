@@ -145,7 +145,7 @@ lint / makefile / ci 任一模块均会生成 `.setup/check.py`、`.setup/checks
 | Python | Ruff 0.8.6、pytest 8.3.4、build 1.2.2.post1；无已有 Ruff 配置时生成 `.setup/ruff.toml` |
 | Java | google-java-format 1.24.0、Checkstyle 10.20.2；生成 `.setup/checkstyle.xml`，复用 Maven / Gradle 构建 |
 
-Go 默认启用 errcheck、govet、ineffassign、staticcheck、unused、bodyclose、errorlint、nolintlint。已有 `.golangci.yml` 按模板冲突规则处理；已有 `.golangci.yaml` / `.toml` / `.json` 时直接沿用。支持项目目录内的 go.work 模块，拒绝指向项目外部的模块。
+Go 保留正确性检查，并增加长函数、长行、复杂度、嵌套及长函数裸返回检查；Python、Java 也启用对应长度与复杂度规则。阈值、官方依据及局部例外见 [默认 lint 策略](lint.md)。已有 `.golangci.yml` 按模板冲突规则处理；已有 `.golangci.yaml` / `.toml` / `.json` 时直接沿用。支持项目目录内的 go.work 模块，拒绝指向项目外部的模块。
 
 ## 本地检查
 

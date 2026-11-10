@@ -51,6 +51,7 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/s
 
 ## 更多说明
 
+- [默认 lint 策略](docs/lint.md)：长度、复杂度检查及官方依据。
 - [工作模型与流程图](docs/workflow.md)：完整的装配、依赖、更新和检查流程。
 - [使用手册](docs/setup.md)：指定 Agent、参数、依赖、模板更新，以及免 Python 的 Skill 独立安装器。
 - [项目 Agent 指南](docs/agent-setup.md)：交给其他项目中的 Agent，单独阅读即可代你完成 setup。

@@ -18,6 +18,15 @@ jobs:
         with:
           version: v2.15.0
           install-only: true
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare lint template validation tools
+        run: |
+          python3 -m pip install ruff==0.8.6
+          curl -fL --retry 3 https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.20.2/checkstyle-10.20.2-all.jar -o "$RUNNER_TEMP/checkstyle.jar"
+          echo "SETUP_TEST_CHECKSTYLE_JAR=$RUNNER_TEMP/checkstyle.jar" >> "$GITHUB_ENV"
       - run: python3 -m unittest discover -s tests -v
       - run: sh -n scripts/install-skills.sh && sh -n scripts/setup.sh
       - run: git diff --check

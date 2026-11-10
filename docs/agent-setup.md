@@ -57,6 +57,8 @@ Python 项目若已有 uv / Poetry / Pipenv 锁文件，脚本可能要求 `--py
 
 setup 不生成 go.mod、pyproject.toml、Maven / Gradle 工程或业务代码，空项目安装完配置后不能据此声称构建已通过。
 
+默认 lint 包含长度和复杂度检查；Go 的 120 列是仓库策略而非语言硬性标准，详见 [lint 策略](https://github.com/AK12-Official/set-up/blob/main/docs/lint.md)。不要因这些新规则而强制覆盖已有项目的 lint 配置。
+
 ## 检查与依赖边界
 
 默认依赖补齐成功后，new 模式生成的 `make check` 依次执行格式检查、lint、测试、构建；`make format` 会修改源码。existing 不生成这些命令，不要运行来源不明的已有 Makefile 来验证 Skill 安装。
