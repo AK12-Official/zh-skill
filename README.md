@@ -4,10 +4,16 @@
 
 ## 一键配置
 
-先建好项目目录并进入其中；已有项目直接进入项目根目录。需要 curl、tar、Python 3.11+，新项目还需要 Git。
+先建好项目目录并进入其中；已有项目直接进入项目根目录。脚本会自动补齐缺少的启动依赖，新项目还会安装所选语言的工具链和检查工具；系统包安装可能需要 sudo。
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/setup.sh | sh
+```
+
+如果新设备连 curl 都没有，Debian / Ubuntu 可先执行下面这条完整引导命令（root 用户去掉 sudo）；其他系统见[依赖引导](docs/setup.md#依赖引导)：
+
+```bash
+sudo apt-get update && sudo apt-get install -y curl ca-certificates && curl -fsSL https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/setup.sh | sh
 ```
 
 按提示选择模式：
@@ -19,7 +25,7 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/s
 
 默认给 **Codex 和 Antigravity** 安装全部已收录 Skill。需要 Claude 等其他目标时，见[进阶用法](docs/setup.md#选择-agent-和-skill)。
 
-setup 配置当前目录，不创建项目目录，不生成业务代码或语言工程骨架，也不安装语言工具链。新项目添加代码后，可用 `make check` 检查；所需依赖见[本地检查](docs/setup.md#本地检查)。
+setup 配置当前目录，不创建项目目录或业务代码。新项目添加代码后可用 `make check`；Python 检查依赖使用项目隔离环境。只想生成配置时加 `--skip-deps`，详细行为见[依赖引导](docs/setup.md#依赖引导)。
 
 ## 不想交互选择
 
@@ -45,6 +51,7 @@ curl -fsSL https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/s
 
 ## 更多说明
 
+- [工作模型与流程图](docs/workflow.md)：完整的装配、依赖、更新和检查流程。
 - [使用手册](docs/setup.md)：指定 Agent、参数、依赖、模板更新，以及免 Python 的 Skill 独立安装器。
 - [项目 Agent 指南](docs/agent-setup.md)：交给其他项目中的 Agent，单独阅读即可代你完成 setup。
 - [仓库维护指南](AGENTS.md)：面向修改本仓库的 Agent。

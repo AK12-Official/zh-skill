@@ -4,3 +4,7 @@ Thumbs.db
 *.swo
 .setup/backups/
 .setup/tools/
+.setup/python
+.setup/venv/
+.setup/environment.json
+.setup/env.sh

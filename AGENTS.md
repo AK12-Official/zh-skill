@@ -7,11 +7,12 @@
 | 任务 | 先读 / 修改位置 |
 | --- | --- |
 | 修改 setup 模式、参数、文件保护 | `scripts/setup.py`，规则详见 [使用手册](docs/setup.md) |
-| 修改一键远程入口 | `scripts/setup.sh` |
+| 修改一键入口与依赖补齐 | `scripts/setup.sh`（启动依赖）、`scripts/dependencies.py`（按模式/语言装配） |
 | 修改语言检查、Makefile、CI 生成 | `templates/`、`scripts/setup.py`；执行入口模板为 `templates/check.py` |
 | 修改 Skill 安装和更新 | `scripts/install-skills.sh`、`tests/test_install_skills.py` |
 | 收录或同步上游 Skill | [Skill 来源维护](docs/skills.md)，再读 `sources.toml` 和 `sources.lock.json` |
 | 修改仓库自动更新 | `.github/workflows/update-skills.yml`、`scripts/sync-skills.py` |
+| 梳理工作模型与执行顺序 | [工作模型与流程图](docs/workflow.md)，按当前源码核对预览、更新和失败路径 |
 | 修改文档 | README 给人快速上手；`docs/agent-setup.md` 给其他项目的 Agent；技术细节放 `docs/setup.md` |
 
 ## 必须保持的行为
@@ -23,8 +24,8 @@
 - 保留独立 Skill 安装器和 `--update`。仅更新所选目标中已安装的 Skill；更新会整目录替换，不自动补装未安装项。
 - 模板默认保护已有文件；管理区块外内容保留。模板更新使用 hash 识别本地修改，显式覆盖时备份。不要把 Skill 的替换规则用于工程配置。
 - 统一入口 dry-run 不写项目文件、不联网下载 Skill 或安装依赖；独立 Skill 安装器的 dry-run 会下载归档，但不修改项目。
-- setup 不默认安装语言工具链或全局依赖。共用检查入口须同时适用于本地和 CI，依赖安装由单独的明确命令负责。
-- 当前范围为 Go / Python / Java 的项目配置和 Skill，不扩展到业务代码骨架、编辑规范、开发环境约定、Agent 指令生成、容器或发布部署。
+- setup 默认补齐缺少的依赖：existing 仅启动依赖，new 按所选模块与语言准备工具链和检查环境；`--skip-deps` 仅生成配置，dry-run 不安装。系统包使用平台包管理器，Python 检查包放在 `.setup/venv`，不写系统 Python；缓存工具由本地环境文件注入检查入口。不要安装无关语言工具链或执行 Skill 指令来猜测依赖。
+- 当前范围为 Go / Python / Java 的项目配置和 Skill，不扩展到业务代码骨架、编辑规范、通用开发环境约定、Agent 指令生成、容器或发布部署。
 
 ## 维护仓库
 
@@ -40,7 +41,7 @@ sh -n scripts/install-skills.sh
 git diff --check
 ```
 
-测试使用临时项目和受控 fixture，不执行上游 Skill 指令。真实 Go 检查测试需要 Go 和 golangci-lint；缺失时会跳过，汇报时不要把跳过当作已验证。
+依赖安装测试必须使用受控包管理器和下载 fixture，禁止在测试中安装系统包；真实下载验证只用临时目录。测试使用临时项目和受控 fixture，不执行上游 Skill 指令。真实 Go 检查测试需要 Go 和 golangci-lint；缺失时会跳过，汇报时不要把跳过当作已验证。
 
 ## Skill 来源与自动更新
 

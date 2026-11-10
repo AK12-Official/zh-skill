@@ -16,7 +16,7 @@ jobs:
           cache: false
       - uses: golangci/golangci-lint-action@v9
         with:
-          version: v2.13.2
+          version: v2.15.0
           install-only: true
       - run: python3 -m unittest discover -s tests -v
       - run: sh -n scripts/install-skills.sh && sh -n scripts/setup.sh

@@ -10,7 +10,7 @@
 curl -fsSL https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/setup.sh | sh
 ```
 
-需要 curl、tar、Python 3.11+。引导器下载 GitHub 归档到临时目录并调用 Python 入口，不执行 Git clone，不创建目标目录。终端交互使用标准输入或 `/dev/tty`；无交互终端且没有参数、配置记录指定模式时默认 existing。
+入口自动补齐缺少的 curl、tar、gzip 和 Python 3.11+，支持范围与权限要求见[依赖引导](#依赖引导)。引导器下载 GitHub 归档到临时目录并调用 Python 入口，不执行 Git clone，不创建目标目录。终端交互使用标准输入或 `/dev/tty`；无交互终端且没有参数、配置记录指定模式时默认 existing。
 
 本地未发布改动使用本地入口，`--project` 指向已存在的目标目录，不要误在工具仓库中执行初始化：
 
@@ -19,7 +19,41 @@ python3 /path/to/set-up/scripts/setup.py --project /path/to/project \
   --mode new --language go --non-interactive --dry-run
 ```
 
-移除 `--dry-run` 执行。只有不选择 Skill 模块的本地 Python 入口才能完全离线；远程引导器和 Skill 安装都会下载归档。统一入口的 Skill dry-run 只列出目标和 ID，不拉取或核实远端 Skill。
+移除 `--dry-run` 执行。不选择 Skill 模块并加 `--skip-deps` 的本地 Python 入口可完全离线；远程引导器和 Skill 安装都会下载归档。统一入口的 Skill dry-run 只列出目标和 ID，不拉取或核实远端 Skill。
+
+## 依赖引导
+
+支持 Linux（apt-get / dnf / yum / apk / pacman）和 macOS（Homebrew），自动二进制下载支持 amd64 / arm64。Windows 原生环境尚未支持，可在 WSL 中运行。系统包需要 root 或 sudo；网络、包仓库和管理员权限仍由设备提供，脚本不会绕过它们。
+
+一键入口分两层：
+
+1. **启动依赖**：缺少 curl、tar、gzip 时用系统包管理器补齐；缺少或过旧的 Python 时下载 uv 0.9.5，并用它提供受管理的 Python 3.12，不替换操作系统 Python。
+2. **项目依赖**：existing 仅保证启动依赖，不安装 Go / Java 等工程工具。new 根据模块补 Git、Make、语言工具链及检查工具。已有可用工具尽量复用。
+
+入口脚本必须先下载到设备，连 curl / wget 都没有时不可能由远端脚本自行启动。Debian / Ubuntu 可用 README 的 apt 引导命令；Fedora / RHEL 可先用 `sudo dnf install -y curl ca-certificates`，Alpine 用 `apk add curl ca-certificates`，Arch 用 `sudo pacman -S --needed curl ca-certificates`，再执行标准一键命令。已有 wget 时也可直接使用：
+
+```bash
+wget -qO- https://raw.githubusercontent.com/AK12-Official/set-up/main/scripts/setup.sh | sh
+```
+
+macOS 自带 curl / tar；需要系统工具但尚无 Homebrew 时，项目依赖阶段会调用官方 Homebrew 安装器，可能要求管理员认证和 Apple Command Line Tools。不要以 root 运行 Homebrew 安装。包仓库没有目标 JDK 版本时会明确失败，不自动添加第三方系统源。
+
+| 依赖 | 安装位置和策略 |
+| --- | --- |
+| Git、Make、curl、tar 等基础工具 | 系统包管理器，只补缺失项 |
+| Python | 已有 3.11+ 运行 setup；按需用 uv 下载所选项目 Python，不替换系统解释器 |
+| Go | 官方下载列表选择所需版本，校验 SHA-256，放用户缓存 |
+| golangci-lint | 固定 2.15.0 的官方二进制及校验文件，放用户缓存 |
+| Python 检查包及项目依赖 | 专用 `.setup/venv`，不使用 sudo pip，不污染系统 Python |
+| JDK / Maven | 系统包管理器，已有 wrapper 时不额外安装 Maven |
+| Gradle | 无 wrapper 和系统 Gradle 时下载 8.12，校验 SHA-256，放用户缓存 |
+| Java 检查 JAR | 下载到 `.setup/tools/` |
+
+默认缓存为 `${XDG_CACHE_HOME:-~/.cache}/set-up/`。项目本地生成 `.setup/python`、`.setup/environment.json`、`.setup/env.sh` 及专用 venv，gitignore 模块忽略这些设备相关文件。`make` / 检查入口自动使用本地运行时和工具路径；直接在 shell 中使用缓存的 go 等命令时运行 `. .setup/env.sh`，无需修改全局 shell profile。
+
+`--skip-deps` 恢复“仅生成配置”；dry-run 永远不安装依赖。启动依赖缺失的远程 dry-run 只输出所需依赖并退出，不提供完整文件预览。安装依赖不是事务：网络或包管理器失败时，已装系统包 / 缓存可能保留；修复原因后重跑会复用可用工具，配置冲突仍受原有保护规则约束。
+
+setup 不安装 Codex / Antigravity 客户端，不登录账号，不执行 Skill 指令，也不自动安装 OpenSpec CLI；这些不是复制 Skill 和生成项目配置所需的启动条件。
 
 ## 模式和参数
 
@@ -37,6 +71,7 @@ python3 /path/to/set-up/scripts/setup.py --project /path/to/project \
 | `--config FILE` | 指定个人 JSON 配置 |
 | `--python-install COMMAND` | Python 依赖安装 argv 字符串，可重复传入，不经 shell 执行 |
 | `--non-interactive` / `--interactive` | 禁止询问 / 显式从标准输入询问 |
+| `--skip-deps` | 仅生成配置，不安装任何依赖；启动依赖必须已存在 |
 | `--dry-run` | 显示文件计划、差异及 Skill 选择，不写项目文件或安装依赖 |
 | `--update` | 更新已装配内容，详见下文；仅更新 Skill 时搭配 existing |
 | `--force` | 显式覆盖冲突模板并备份；Skill 保持整目录替换语义 |
@@ -44,7 +79,7 @@ python3 /path/to/set-up/scripts/setup.py --project /path/to/project \
 
 以 `python3 scripts/setup.py --help` 为完整参数入口。显式传 `--modules` 而未指定 mode 时，包含工程配置模块则视为 new；只有 skills 则视为 existing。
 
-语言辅助识别使用项目根目录的 go.mod / go.work、Python 项目文件、pom.xml / build.gradle(.kts)。new 交互流程询问语言和缺失版本；非交互需传语言或存在可识别文件。不会生成语言项目骨架，也不安装工具链。
+语言辅助识别使用项目根目录的 go.mod / go.work、Python 项目文件、pom.xml / build.gradle(.kts)。new 交互流程询问语言和缺失版本；非交互需传语言或存在可识别文件。不会生成语言项目骨架；默认按模式和所选模块补齐依赖。
 
 CI 版本优先取显式参数，其次读取 Go 的 go.work / go.mod、Python 的 `.python-version`、Java 的 `.java-version` 或 Maven 常见版本属性。new 引导流程缺失时使用 Go 1.25、Python 3.12、Java 21；独立指定 CI 模块而不能确定版本时会报错。Java 空项目默认 Maven；已有项目的构建工具不能明确判定时要求显式选择。
 
@@ -106,7 +141,7 @@ lint / makefile / ci 任一模块均会生成 `.setup/check.py`、`.setup/checks
 
 | 语言 | 默认检查工具与配置 |
 | --- | --- |
-| Go | gofmt；golangci-lint 2.13.2，生成 `.golangci.yml`；测试和构建调用 Go |
+| Go | gofmt；golangci-lint 2.15.0，生成 `.golangci.yml`；测试和构建调用 Go |
 | Python | Ruff 0.8.6、pytest 8.3.4、build 1.2.2.post1；无已有 Ruff 配置时生成 `.setup/ruff.toml` |
 | Java | google-java-format 1.24.0、Checkstyle 10.20.2；生成 `.setup/checkstyle.xml`，复用 Maven / Gradle 构建 |
 
@@ -124,17 +159,17 @@ make check SETUP_LANGUAGE=go    # 多语言项目只检查一种
 python3 .setup/check.py check   # 不使用 Make
 ```
 
-Go 本地需安装 Go 和 golangci-lint v2，建议与 CI 的 2.13.2 一致，见[官方安装说明](https://golangci-lint.run/docs/welcome/install/local/)。CI 的官方 lint Action 仅安装工具，再交给共用命令执行检查。
+默认自动检查 Go 的最低所需版本，缺失或过旧时下载匹配版本；golangci-lint 缺失或低于 2.15.0 时下载固定版本，已有更新版本沿用。CI 的官方 lint Action 仅安装工具，再交给共用命令执行检查。
 
-Python 在项目选定环境中显式执行 `python3 .setup/check.py deps` 安装项目和检查依赖；无包元数据时跳过构建，无测试时保留 pytest 的非零退出码。
+Python 默认在 `.setup/venv` 中安装项目和检查依赖；可再次执行 `.setup/python .setup/check.py deps` 补装；无包元数据时跳过构建，无测试时保留 pytest 的非零退出码。
 
-Java 显式执行 `python3 .setup/check.py tools`，将固定版本检查 JAR 下载到 `.setup/tools/`；构建优先用项目 wrapper，否则调用系统 mvn / gradle。不会重写 pom.xml 或 Gradle 构建文件。
+Java 默认安装缺失的 JDK / 构建工具并下载固定版本检查 JAR 到 `.setup/tools/`，可再次执行 `.setup/python .setup/check.py tools` 补装；构建优先用项目 wrapper，否则调用系统 mvn / gradle。不会重写 pom.xml 或 Gradle 构建文件。
 
 统一 setup 不自动安装 OpenSpec CLI，相关 Skill 需要时按输出提示自行补装。安装成功不代表目标项目检查或远程 CI 已成功。
 
 ## Python 依赖安装
 
-默认按 requirements.txt 或包元数据安装。检测到 uv / Poetry / Pipenv 锁文件时，要求显式提供与原有流程一致的安装命令；setup 不执行这些命令，只有生成的 `deps` 命令及 CI 会执行。
+默认按 requirements.txt 或包元数据安装。检测到 uv / Poetry / Pipenv 锁文件时，要求显式提供与原有流程一致的安装命令；默认 setup 在项目专用虚拟环境中调用生成的 `deps` 命令来执行这些命令，CI 也会执行；`--skip-deps` 时只保存命令不执行。
 
 例如在 `--config` 文件中指定：
 

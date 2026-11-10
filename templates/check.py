@@ -98,7 +98,7 @@ def check(language, action):
             if action == "lint":
                 if not shutil.which("golangci-lint"):
                     raise ValueError(
-                        "Missing golangci-lint v2. Install v2.13.2 from the official releases and add it to PATH (see README)."
+                        "Missing golangci-lint v2. Install v2.15.0 from the official releases and add it to PATH (see README)."
                     )
                 config = CONFIG.get("golangci_config", ".golangci.yml")
                 for pattern in patterns:
@@ -171,6 +171,17 @@ def python_package():
 
 
 def main():
+    local_environment = ROOT / ".setup/environment.json"
+    if local_environment.exists():
+        environment = json.loads(local_environment.read_text())
+        os.environ.update(environment["variables"])
+        os.environ["PATH"] = os.pathsep.join(
+            environment["paths"] + [os.environ["PATH"]]
+        )
+    venv = ROOT / ".setup/venv"
+    interpreter = venv / "bin/python"
+    if interpreter.exists() and Path(sys.prefix).resolve() != venv.resolve():
+        os.execv(str(interpreter), [str(interpreter), __file__, *sys.argv[1:]])
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "action",

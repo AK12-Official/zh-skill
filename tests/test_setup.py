@@ -22,7 +22,14 @@ class SetupTest(unittest.TestCase):
 
     def run_setup(self, *args, ok=True):
         result = subprocess.run(
-            [sys.executable, str(SETUP), "--project", str(self.root), *args],
+            [
+                sys.executable,
+                str(SETUP),
+                "--skip-deps",
+                "--project",
+                str(self.root),
+                *args,
+            ],
             env=self.env,
             capture_output=True,
             text=True,
@@ -199,6 +206,7 @@ class SetupTest(unittest.TestCase):
                 "gitignore",
                 "--agents",
                 "claude",
+                "--skip-deps",
             ],
             cwd=self.root,
             env=self.env,
@@ -414,7 +422,7 @@ class SetupTest(unittest.TestCase):
         self.assertEqual(before, source.read_text())
         # An ignored error is not reported by go vet; prove the extra linter runs.
         source.write_text(
-            'package main\n\nimport "os"\n\nfunc main() {\n os.Chdir(".")\n}\n'
+            "package main\n\nfunc mayFail() error { return nil }\n\nfunc main() { mayFail() }\n"
         )
         result = run("lint")
         self.assertNotEqual(result.returncode, 0)
@@ -444,7 +452,7 @@ class SetupTest(unittest.TestCase):
         self.assertEqual(data["golangci_config"], ".golangci.yaml")
         workflow = (self.root / ".github/workflows/setup-go.yml").read_text()
         self.assertIn("install-only: true", workflow)
-        self.assertIn("version: v2.13.2", workflow)
+        self.assertIn("version: v2.15.0", workflow)
 
     def test_java_wrapper_dispatch(self):
         for tool, wrapper, test_args, build_args in [
